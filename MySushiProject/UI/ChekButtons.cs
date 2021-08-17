@@ -8,9 +8,9 @@ namespace MySushiProject.UI
 {
     class ChekButtons
     {
-        public static int CheckBut(int count, out bool but)
+        public static int CheckBut(int countStr, out bool butEnt)
         {
-            but = false;
+            butEnt = false;
             var keyL = ConsoleKey.LeftArrow;
             var keyR = ConsoleKey.RightArrow;
             var keyU = ConsoleKey.UpArrow;
@@ -22,25 +22,25 @@ namespace MySushiProject.UI
 
             if (key.Key == keyU)
             {
-                count--;
-
+                countStr--;
             }
 
             if (key.Key == keyD)
             {
-                count++;
-
+                countStr++;
             }
 
             if (key.Key == keyEnt)
             {
-
-                but = true;
-
+                butEnt = true;
             }
 
+            
 
-            return count;
+
+            return countStr;
         }
+
+
     }
 }

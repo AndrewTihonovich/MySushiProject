@@ -6,9 +6,11 @@ namespace MySushiProject
 {
     class Program
     {
-        static bool isEnter = false;
+        
         static void Main(string[] args)
         {
+            Console.CursorVisible = false;
+
             List<string> Menu = new List<string>()
             {
                 "Аризона",
@@ -16,7 +18,14 @@ namespace MySushiProject
                 "Сакура",
                 "Филадельфия",
                 "Мияги",
-                "Токио",
+                "Токио"
+            };
+
+            List<string> Menu2 = new List<string>()
+            {
+                "Филадельфия",
+                "Мияги",
+                "Токио"
             };
 
             Console.WriteLine("Здравствуйте");
@@ -24,62 +33,52 @@ namespace MySushiProject
             string name = " Console.ReadLine(); ";
 
             Console.Clear();
-            Console.WriteLine($"{name}, Вы можете сделать заказ из меню на сегодня:");
 
 
-
-            (int X, int Y) positionStart = Console.GetCursorPosition();
-            foreach (var item in Menu)
+            List<string> Menu3 = new List<string>()
             {
-                Console.WriteLine(item);
-            }
-            (int X, int Y) positionStop = Console.GetCursorPosition();
+                "Сделать заказ",
+                "Посмотреть меню"
+            };
 
-            Console.Clear();
-            Console.WriteLine($"{name}, Вы можете сделать заказ из меню на сегодня:");
+            string message;
+
+            int count = 0;
 
 
-
-            string message = $"{name}, Вы можете сделать заказ из меню на сегодня:";
-            int count = Menu.Count;
-            int cursor = 0;
-            
-            while (!isEnter) //Console.ReadKey().Key != ConsoleKey.Enter
+            switch (count)
             {
-                for (int i = positionStart.Y; i < positionStop.Y; i++)
-                {
-                        if (cursor == i- positionStart.Y)
-                        {
-                            Console.BackgroundColor = (ConsoleColor)12;
-                            Console.WriteLine(Menu[i - positionStart.Y]);
-                            Console.BackgroundColor = (ConsoleColor)0;
-                        }
-                        else
-                        {
-                            Console.WriteLine(Menu[i - positionStart.Y]);
-                        }
-                }
+                case 0:
+                    message = ($"{name}, хотите сделать заказ или посмотреть меню на сегодня?");
+                    UIMenu.UiMenu(Menu3, message);
+                    break;
 
-                cursor = ChekButtons.CheckBut(cursor, out isEnter);
+                case 1:
+                    message = $"{name}, Вы можете сделать заказ из меню на сегодня:";
+                    UIMenu.UiMenu(Menu, message);
+                    break;
 
-                Console.Clear();
-                Console.WriteLine($"{message}");
+                case 2:
+                    message = $"{name}, Вы можете сделать заказ из меню2 на сегодня:";
+                    UIMenu.UiMenu(Menu2, message);
+                    break;
+
+                default:
+                    break;
             }
 
+            //message=($"{name}, хотите сделать заказ или посмотреть меню на сегодня?");
+            //UIMenu.UiMenu(Menu3, message);
 
-            
+            //message = $"{name}, Вы можете сделать заказ из меню на сегодня:";
+            //UIMenu.UiMenu(Menu, message);
 
-
-
-
-
+            //message = $"{name}, Вы можете сделать заказ из меню2 на сегодня:";
+            //UIMenu.UiMenu(Menu2, message);
 
         }
 
-
-
-
-
+        
     }
 }
 
