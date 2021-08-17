@@ -8,37 +8,18 @@ namespace MySushiProject.UI
 {
     class ChekButtons
     {
-        public static int CheckBut(int countStr, out bool butEnt)
+        public static ConsoleKey CheckBut()
         {
-            butEnt = false;
-            var keyL = ConsoleKey.LeftArrow;
-            var keyR = ConsoleKey.RightArrow;
-            var keyU = ConsoleKey.UpArrow;
-            var keyD = ConsoleKey.DownArrow;
-            var keyEnt = ConsoleKey.Enter;
-            var keyEsc = ConsoleKey.Escape;
+            //var keyL = ConsoleKey.LeftArrow;
+            //var keyR = ConsoleKey.RightArrow;
+            //var keyU = ConsoleKey.UpArrow;
+            //var keyD = ConsoleKey.DownArrow;
+            //var keyEnt = ConsoleKey.Enter;
+            //var keyEsc = ConsoleKey.Escape;
 
             var key = Console.ReadKey();
 
-            if (key.Key == keyU)
-            {
-                countStr--;
-            }
-
-            if (key.Key == keyD)
-            {
-                countStr++;
-            }
-
-            if (key.Key == keyEnt)
-            {
-                butEnt = true;
-            }
-
-            
-
-
-            return countStr;
+            return key.Key;
         }
 
 

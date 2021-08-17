@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySushiProject.UI.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,22 @@ namespace MySushiProject.UI
 {
     class UIMenu
     {
-        static bool isEnter = false;
-        public static void UiMenu(List<string> Menu, string message)
+        //static bool isEnter = false;
+        public static EnumListMenu UiMenus(List<string> Menu, string message, EnumListMenu listMenu)
         {
+            ConsoleKey butNumber=0;
+            var keyL = ConsoleKey.LeftArrow;
+            var keyR = ConsoleKey.RightArrow;
+            var keyU = ConsoleKey.UpArrow;
+            var keyD = ConsoleKey.DownArrow;
+            var keyEnt = ConsoleKey.Enter;
+            var keyEsc = ConsoleKey.Escape;
+
             int count = Menu.Count;
             int cursor = 0;
             int positionStartY = 3;
 
-            while (!isEnter) //Console.ReadKey().Key != ConsoleKey.Enter
+            while (butNumber != ConsoleKey.Enter && butNumber != ConsoleKey.Escape) //Console.ReadKey().Key != ConsoleKey.Enter
             {
                 Console.WriteLine();
                 Console.WriteLine($"{message}");
@@ -35,7 +44,20 @@ namespace MySushiProject.UI
                     }
                 }
 
-                cursor = ChekButtons.CheckBut(cursor, out isEnter);
+                
+                butNumber = Console.ReadKey().Key;
+
+                if (butNumber == keyU)
+                {
+                    cursor--;
+                }
+
+                if (butNumber == keyD)
+                {
+                    cursor++;
+                }
+
+
                 if (cursor < 0)
                 {
                     cursor = 0;
@@ -48,7 +70,20 @@ namespace MySushiProject.UI
                 Console.Clear();
 
             }
-            isEnter = false;
+
+            if (butNumber== keyEnt)
+            {
+                listMenu++;
+            }
+
+            if (butNumber == keyEsc)
+            {
+                listMenu--;
+            }
+
+            butNumber = 0;
+
+            return listMenu;
         }
     }
 }
