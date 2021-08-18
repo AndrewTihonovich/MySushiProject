@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MySushiProject.UI.Enum
+namespace MySushiProject.UI
 {
-    public enum EnumListMenu
+    class ListWindows
     {
-        Start=0,
-        Order,
-        Order2
+
     }
 }

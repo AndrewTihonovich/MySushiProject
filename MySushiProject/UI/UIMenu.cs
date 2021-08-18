@@ -1,4 +1,5 @@
 ﻿using MySushiProject.UI.Enum;
+using MySushiProject.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,11 @@ namespace MySushiProject.UI
     class UIMenu
     {
         //static bool isEnter = false;
-        public static EnumListMenu UiMenus(List<string> Menu, string message, EnumListMenu listMenu)
+        public static EnumListWindows UiMenus(List<User> Menu , string message, EnumListWindows listMenu)    //, out int posMenu)
         {
             ConsoleKey butNumber=0;
-            var keyL = ConsoleKey.LeftArrow;
-            var keyR = ConsoleKey.RightArrow;
+            var keyMin = ConsoleKey.Subtract;
+            var keyPlus = ConsoleKey.Add;
             var keyU = ConsoleKey.UpArrow;
             var keyD = ConsoleKey.DownArrow;
             var keyEnt = ConsoleKey.Enter;
@@ -35,12 +36,12 @@ namespace MySushiProject.UI
                     if (cursor == i - positionStartY)
                     {
                         Console.BackgroundColor = (ConsoleColor)12;
-                        Console.WriteLine(Menu[i - positionStartY]);
+                        Console.WriteLine(Menu[i - positionStartY].ToString());
                         Console.BackgroundColor = (ConsoleColor)0;
                     }
                     else
                     {
-                        Console.WriteLine(Menu[i - positionStartY]);
+                        Console.WriteLine(Menu[i - positionStartY].ToString());
                     }
                 }
 
@@ -50,26 +51,46 @@ namespace MySushiProject.UI
                 if (butNumber == keyU)
                 {
                     cursor--;
+                    if (cursor < 0)
+                    {
+                        cursor = 0;
+                    }
                 }
 
                 if (butNumber == keyD)
                 {
                     cursor++;
+                    if (cursor >= count)
+                    {
+                        cursor = count - 1;
+                    }
+                }
+
+                if (butNumber == keyPlus)////
+                {
+                    Menu[cursor].Id++;
+                    if (Menu[cursor].Id>10)
+                    {
+                        Menu[cursor].Id = 10;
+                    }
+                }
+
+                if (butNumber == keyMin)////
+                {
+                    Menu[cursor].Id--;
+                    if (Menu[cursor].Id < 0)
+                    {
+                        Menu[cursor].Id = 0;
+                    }
                 }
 
 
-                if (cursor < 0)
-                {
-                    cursor = 0;
-                }
-                if (cursor >= count)
-                {
-                    cursor = count - 1;
-                }
 
                 Console.Clear();
 
             }
+
+            //posMenu = cursor;
 
             if (butNumber== keyEnt)
             {
@@ -80,7 +101,7 @@ namespace MySushiProject.UI
             {
                 listMenu--;
             }
-
+            
             butNumber = 0;
 
             return listMenu;

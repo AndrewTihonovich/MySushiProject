@@ -1,5 +1,7 @@
-﻿using MySushiProject.UI;
+﻿using MySushiProject.BL;
+using MySushiProject.UI;
 using MySushiProject.UI.Enum;
+using MySushiProject.Users;
 using System;
 using System.Collections.Generic;
 
@@ -7,10 +9,28 @@ namespace MySushiProject
 {
     class Program
     {
+
         
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
+
+            List<User> Menu8 = new List<User>()
+            {
+              
+            };
+            Menu8.Add(new User { Id = 1, Address = "jdgf", Email = "sdfligsd", Name = "jashk", Phone = "jkhdfgkdf" });
+            Menu8.Add(new User { Id = 2, Address = "jdgf", Email = "sdfligsd", Name = "jashk", Phone = "jkhdfgkdf" });
+            Menu8.Add(new User { Id = 3, Address = "jdgf", Email = "sdfligsd", Name = "jashk", Phone = "jkhdfgkdf" });
+            Menu8.Add(new User { Id = 4, Address = "jdgf", Email = "sdfligsd", Name = "jashk", Phone = "jkhdfgkdf" });
+            Menu8.Add(new User { Id = 5, Address = "jdgf", Email = "sdfligsd", Name = "jashk", Phone = "jkhdfgkdf" });
+            Menu8.Add(new User { Id = 6, Address = "jdgf", Email = "sdfligsd", Name = "jashk", Phone = "jkhdfgkdf" });
+
+            Sushi sushi = new Sushi(1, "kjhvgfg", 4, 15); //{ Amount = 4, Coast = 15, Name = "kdslkdgsd" };
+            Sushi sushi2 = new Sushi(2, "kjhvgfg", 5, 55);
+
+
+
 
             List<string> Menu = new List<string>()
             {
@@ -44,38 +64,38 @@ namespace MySushiProject
 
             string message;
 
-            EnumListMenu listMenu = 0;
+            EnumListWindows listMenuWindows = 0;
             //EnumListMenu listMenu2 = 0;
 
             while (true)
             {
                 
-              switch (listMenu)
+              switch (listMenuWindows)
               {
-                case EnumListMenu.Start:
+                case EnumListWindows.Start:
                     message = ($"{name}, хотите сделать заказ или посмотреть меню на сегодня?");
-                    listMenu=UIMenu.UiMenus(Menu3, message, listMenu);
+                    listMenuWindows=UIMenu.UiMenus(Menu8, message, listMenuWindows);
                     break;
 
-                case EnumListMenu.Order:
+                case EnumListWindows.OrderOrMenu:
                     message = $"{name}, Вы можете сделать заказ из меню на сегодня:";
-                    listMenu = UIMenu.UiMenus(Menu, message, listMenu);
+                    listMenuWindows = UIMenu.UiMenus(Menu8, message, listMenuWindows);
                     break;
 
-                case EnumListMenu.Order2:
+                case EnumListWindows.MenuToday:
                     message = $"{name}, Вы можете сделать заказ из меню2 на сегодня:";
-                    listMenu = UIMenu.UiMenus(Menu2, message, listMenu);
+                    listMenuWindows = UIMenu.UiMenus(Menu8, message, listMenuWindows);
                     break;
 
                 default:
-                        if (listMenu < 0)
+                        if (listMenuWindows < 0)
                         {
-                            listMenu = 0;
+                            listMenuWindows = 0;
                         }
 
-                        if ((int)listMenu >= Enum.GetNames(typeof(EnumListMenu)).Length)
+                        if ((int)listMenuWindows >= Enum.GetNames(typeof(EnumListWindows)).Length)
                         {
-                            listMenu = (EnumListMenu)Enum.GetNames(typeof(EnumListMenu)).Length-1;
+                            listMenuWindows = (EnumListWindows)Enum.GetNames(typeof(EnumListWindows)).Length-1;
                         }
                         
                         break;
