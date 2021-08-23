@@ -1,4 +1,5 @@
 ﻿using MySushiProject.BL;
+using MySushiProject.Repository;
 using MySushiProject.UI;
 using MySushiProject.UI.Enum;
 using MySushiProject.Users;
@@ -13,7 +14,15 @@ namespace MySushiProject
         
         static void Main(string[] args)
         {
-            Console.CursorVisible = false;
+            //Console.SetWindowSize(Console.WindowWidth, 1000);
+
+            //Console.CursorVisible = false;
+            //var cw = Console.WindowWidth;
+            //var ch = Console.WindowHeight;
+            Console.SetWindowSize(100, 30);
+
+            Sushi sushi = new Sushi( "jkdfhgdksj", 12, "description");
+            sushi.SushiListJSON();
 
             List<User> Menu8 = new List<User>()
             {
@@ -26,21 +35,21 @@ namespace MySushiProject
             Menu8.Add(new User { Id = 5, Address = "jdgf", Email = "sdfligsd", Name = "jashk", Phone = "jkhdfgkdf" });
             Menu8.Add(new User { Id = 6, Address = "jdgf", Email = "sdfligsd", Name = "jashk", Phone = "jkhdfgkdf" });
 
-            Sushi sushi = new Sushi(1, "kjhvgfg", 4, 15); //{ Amount = 4, Coast = 15, Name = "kdslkdgsd" };
-            Sushi sushi2 = new Sushi(2, "kjhvgfg", 5, 55);
+            //Sushi sushi = new Sushi(1, "kjhvgfg", 4, 15); //{ Amount = 4, Coast = 15, Name = "kdslkdgsd" };
+            //Sushi sushi2 = new Sushi(2, "kjhvgfg", 5, 55);
 
 
 
 
-            List<string> Menu = new List<string>()
-            {
-                "Аризона",
-                "Атами",
-                "Сакура",
-                "Филадельфия",
-                "Мияги",
-                "Токио"
-            };
+            //List<string> Menu = new List<string>()
+            //{
+            //    "Аризона",
+            //    "Атами",
+            //    "Сакура",
+            //    "Филадельфия",
+            //    "Мияги",
+            //    "Токио"
+            //};
 
             List<string> Menu2 = new List<string>()
             {
@@ -66,6 +75,8 @@ namespace MySushiProject
 
             EnumListWindows listMenuWindows = 0;
             //EnumListMenu listMenu2 = 0;
+            SushiRepository sushiRepository = new SushiRepository();
+
 
             while (true)
             {
@@ -73,19 +84,33 @@ namespace MySushiProject
               switch (listMenuWindows)
               {
                 case EnumListWindows.Start:
-                    message = ($"{name}, хотите сделать заказ или посмотреть меню на сегодня?");
-                    listMenuWindows=UIMenu.UiMenus(Menu8, message, listMenuWindows);
+                        Console.WriteLine("Здравствуйте");
+                        Console.WriteLine("Как Вас зовут?");
+                        User newUser = new User();
+                        newUser.Name = Console.ReadLine(); 
+                        listMenuWindows++;
                     break;
 
                 case EnumListWindows.OrderOrMenu:
-                    message = $"{name}, Вы можете сделать заказ из меню на сегодня:";
-                    listMenuWindows = UIMenu.UiMenus(Menu8, message, listMenuWindows);
-                    break;
+                        Console.Clear();
+                        Console.WriteLine($"{name}, хотите посмотреть меню на сегодня?");
+                        Console.ReadLine();
+                        listMenuWindows++;
+                        //listMenuWindows = UIMenu.UiMenus(Menu8, message, listMenuWindows);
+                        break;
 
                 case EnumListWindows.MenuToday:
-                    message = $"{name}, Вы можете сделать заказ из меню2 на сегодня:";
-                    listMenuWindows = UIMenu.UiMenus(Menu8, message, listMenuWindows);
-                    break;
+                        Console.Clear();
+                        Console.CursorVisible = false;
+                        message = $"{name}, Вы можете сделать заказ из меню на сегодня:";
+                        //ListSushi listSushi = new ListSushi();
+
+                        var Menu = sushiRepository.GetAll();
+                        //var Menu = listSushi.SushiList();
+                        
+                        listMenuWindows = UIMenu.UiMenus(Menu, message, listMenuWindows);
+
+                        break;
 
                 default:
                         if (listMenuWindows < 0)

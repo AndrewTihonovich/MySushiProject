@@ -8,13 +8,28 @@ namespace MySushiProject.BL
 {
     class BasketOrder : Sushi
     {
-        public BasketOrder(int amountInOrder, double coastPortion, int id, string name, int amountPortion, double coastUnit) : base (id, name, amountPortion, coastUnit)
+        public BasketOrder( string name, double coast, string description) : base ( name, coast, description)
         {
-            AmountInOrder = amountInOrder;
-            CoastPortion = coastPortion;
+            AmountInOrder = 0;
+            //CoastUnit = AmountInOrder * Coast;
         }
 
         public int AmountInOrder { get; set; }
-        public double CoastPortion { get; set; }
+        public double CoastUnit { get; set; }
+        
+
+        public override string ToString()
+        {
+            if (this.Name.Length > 15)
+            {
+                return $"{Name}\t{AmountInOrder}\t\t{Coast}\t\t{CoastUnit = Math.Round(AmountInOrder * Coast, 2)}";
+            }
+            else
+              {
+                return $"{Name}\t\t{AmountInOrder}\t\t{Coast}\t\t{CoastUnit = Math.Round(AmountInOrder * Coast, 2)}";
+              }
+        }
+
+      
     }
 }
