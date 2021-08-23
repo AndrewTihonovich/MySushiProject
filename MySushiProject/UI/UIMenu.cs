@@ -35,7 +35,7 @@ namespace MySushiProject.UI
                 Console.WriteLine($"{message}");
                 Console.WriteLine();
 
-                Console.WriteLine("Название\tКоличество\tЦена порции\tСтоимость");
+                Console.WriteLine("Название\t\tКоличество\tЦена порции\tСтоимость\tОписание");
 
                 for (int i = positionStartY; i < positionStartY + count; i++)
                 {

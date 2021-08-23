@@ -19,7 +19,7 @@ namespace MySushiProject.Repository
             string json;
             try
             {
-                json = File.ReadAllText(@"c:\temp\FileJSON5.json", Encoding.UTF8);
+                json = File.ReadAllText(@"C:\Users\Andrew\Source\Repos\AndrewTihonovich\MySushiProject\MySushiProject\FileJSON.json", Encoding.UTF8);
                 sushis = JsonConvert.DeserializeObject<List<BasketOrder>>(json);
             }
             catch (FileNotFoundException)
