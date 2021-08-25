@@ -1,4 +1,4 @@
-﻿using MySushiProject.Users;
+﻿using MySushiProject.BL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace MySushiProject.Repository
 {
-    class UsersRepository : IRepository<User>
+    class OrderRepository : IRepository<Order>
     {
-        List<User> _users = new List<User>();
+        List<Order> _orders = new List<Order>();
 
-        public void Add(User item)
+        public void Add(Order item)
         {
-            _users.Add(item);
+            _orders.Add(item);
         }
 
         public void Delete(Guid id)
@@ -21,17 +21,17 @@ namespace MySushiProject.Repository
             throw new NotImplementedException();
         }
 
-        public List<User> GetAll()
+        public List<Order> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public User GetById(Guid id)
+        public Order GetById(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(User item)
+        public void Update(Order item)
         {
             throw new NotImplementedException();
         }

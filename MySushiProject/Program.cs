@@ -78,7 +78,11 @@ namespace MySushiProject
             EnumListWindows listMenuWindows = 0;
             //EnumListMenu listMenu2 = 0;
             SushiRepository sushiRepository = new SushiRepository();
+            UsersRepository usersRepository = new UsersRepository();
+            OrderRepository orderRepository = new OrderRepository();
             User newUser = new User();
+            Order newOrder = new Order();
+            
             //List<BasketOrder> Menu = sushiRepository.GetAll();
             List<BasketOrder> Basket = new List<BasketOrder>();
             
@@ -89,6 +93,7 @@ namespace MySushiProject
               switch (listMenuWindows)
               {
                 case EnumListWindows.Start:
+                        newUser = new User();
                         Console.Clear();
                         Console.WriteLine("Здравствуйте");
                         Console.WriteLine("Как Вас зовут?");
@@ -144,11 +149,10 @@ namespace MySushiProject
 
                 case EnumListWindows.CheckOrder:
                         Console.Clear();
-                        Order newOrder = new Order();
+                        //Order newOrder = new Order();
                         newOrder.User = newUser;
                         newOrder.BasketOrders = Basket.Where(x => x.CoastUnit != 0).ToList();
                         newOrder.TotalCoast = SushiRepository.TotalCoast(newOrder.BasketOrders);
-
 
                         Console.WriteLine($"{newUser.Name}, проверте Ваш заказ. \n");
 
@@ -168,9 +172,10 @@ namespace MySushiProject
 
                 case EnumListWindows.End:
 
-                        
+                        usersRepository.Add(newUser);
                         newUser = new User();//
                         //Add user in repo
+                        orderRepository.Add(newOrder);
                         newOrder = new Order();//
                         //Add Order in repo
 
