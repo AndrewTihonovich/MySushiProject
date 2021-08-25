@@ -12,7 +12,7 @@ namespace MySushiProject.Repository
     class SushiRepository : IRepository<BasketOrder>
     {
         
-        static List<BasketOrder> sushis = new List<BasketOrder>();
+        List<BasketOrder> _sushis = new List<BasketOrder>();
 
         public  SushiRepository()
         {
@@ -20,7 +20,7 @@ namespace MySushiProject.Repository
             try
             {
                 json = File.ReadAllText(@"C:\Users\Andrew\Source\Repos\AndrewTihonovich\MySushiProject\MySushiProject\FileJSON.json", Encoding.UTF8);
-                sushis = JsonConvert.DeserializeObject<List<BasketOrder>>(json);
+                _sushis = JsonConvert.DeserializeObject<List<BasketOrder>>(json);
             }
             catch (FileNotFoundException)
             {
@@ -33,7 +33,7 @@ namespace MySushiProject.Repository
 
         public void Add(BasketOrder item)
         {
-            sushis.Add(item);
+            _sushis.Add(item); 
         }
 
         public void Delete(Guid id)
@@ -43,7 +43,7 @@ namespace MySushiProject.Repository
 
         public List<BasketOrder> GetAll()
         {
-            return sushis; ;
+            return _sushis; 
         }
 
         public BasketOrder GetById(Guid id)

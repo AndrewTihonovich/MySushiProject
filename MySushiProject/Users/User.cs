@@ -8,7 +8,7 @@ namespace MySushiProject.Users
 {
     class User
     {
-        public int Id { get; set; }
+        public Guid Id { get;} = Guid.NewGuid();
         public string Name { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
@@ -16,7 +16,7 @@ namespace MySushiProject.Users
 
         public override string ToString()
         {
-            return $"{Id} {Name} {Address}";
+            return $"{Name} {Address}";
         }
 
     }

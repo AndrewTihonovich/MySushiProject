@@ -13,5 +13,10 @@ namespace MySushiProject.BL
         public List<BasketOrder> BasketOrders { get; set; }
         public User User { get; set; }
         public double TotalCoast { get; set; }
+
+        public override string ToString()
+        {
+            return $"{User.ToString()} \n Заказ:\n {BasketOrders.ToString()}\n Общая стоимость заказа {TotalCoast}";
+        }
     }
 }

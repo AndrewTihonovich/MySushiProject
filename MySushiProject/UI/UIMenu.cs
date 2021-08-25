@@ -13,7 +13,7 @@ namespace MySushiProject.UI
     class UIMenu
     {
         //static bool isEnter = false;
-        public static EnumListWindows UiMenus(List<BasketOrder> Menu , string message, EnumListWindows listMenu)    //, out int posMenu)
+        public static EnumListWindows UiMenus(List<BasketOrder> Basket, string message, EnumListWindows listMenu)    //, out int posMenu)
         {
             ConsoleKey butNumber=0;
             var keyMin = ConsoleKey.Subtract;
@@ -25,7 +25,7 @@ namespace MySushiProject.UI
             var keyInfo = ConsoleKey.I;
             var keyF1 = ConsoleKey.F1;
 
-            int count = Menu.Count;
+            int count = Basket.Count;
             int cursor = 0;
             int positionStartY = 4;
 
@@ -35,24 +35,24 @@ namespace MySushiProject.UI
                 Console.WriteLine($"{message}");
                 Console.WriteLine();
 
-                Console.WriteLine("Название\t\tКоличество\tЦена порции\tСтоимость\tОписание");
+                Console.WriteLine("Название\t\t   Количество\t    Цена порции\t    Стоимость\t    Описание");
 
                 for (int i = positionStartY; i < positionStartY + count; i++)
                 {
                     if (cursor == i - positionStartY)
                     {
                         Console.BackgroundColor = (ConsoleColor)12;
-                        Console.WriteLine(Menu[i - positionStartY].ToString());
+                        Console.WriteLine(Basket[i - positionStartY].ToString());
                         Console.BackgroundColor = (ConsoleColor)0;
                     }
                     else
                     {
-                        Console.WriteLine(Menu[i - positionStartY].ToString());
+                        Console.WriteLine(Basket[i - positionStartY].ToString());
                     }
                 }
 
                 Console.WriteLine();
-                Console.WriteLine($"Итоговая стоимость заказа {SushiRepository.TotalCoast(Menu)} ");
+                Console.WriteLine($"Итоговая стоимость заказа {SushiRepository.TotalCoast(Basket)} ");
 
                 butNumber = Console.ReadKey().Key;
 
@@ -76,19 +76,19 @@ namespace MySushiProject.UI
 
                 if (butNumber == keyPlus)////
                 {
-                    Menu[cursor].AmountInOrder++;
-                    if (Menu[cursor].AmountInOrder > 10)
+                    Basket[cursor].AmountInOrder++;
+                    if (Basket[cursor].AmountInOrder > 10)
                     {
-                        Menu[cursor].AmountInOrder = 10;
+                        Basket[cursor].AmountInOrder = 10;
                     }
                 }
 
                 if (butNumber == keyMin)////
                 {
-                    Menu[cursor].AmountInOrder--;
-                    if (Menu[cursor].AmountInOrder < 0)
+                    Basket[cursor].AmountInOrder--;
+                    if (Basket[cursor].AmountInOrder < 0)
                     {
-                        Menu[cursor].AmountInOrder = 0;
+                        Basket[cursor].AmountInOrder = 0;
                     }
                 }
 
@@ -99,7 +99,7 @@ namespace MySushiProject.UI
                     Console.WriteLine();
                     try
                     {
-                        Console.WriteLine(Menu[cursor].Description);
+                        Console.WriteLine(Basket[cursor].Description);
                     }
                     catch (Exception)
                     {
