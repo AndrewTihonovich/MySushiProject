@@ -8,7 +8,7 @@ namespace MySushiProject.BL
 {
     class BasketOrder : Sushi
     {
-        public BasketOrder( string name, double coast, string description) : base ( name, coast, description)
+        public BasketOrder(int id, string name, double coast, string description) : base ( id, name, coast, description)
         {
             AmountInOrder = 0;
             //CoastUnit = AmountInOrder * Coast;

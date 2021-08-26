@@ -11,16 +11,16 @@ namespace MySushiProject.BL
 {
     class Sushi
     {
-        static int _id = 0;
+        //static int _id = 0;
         public int Id { get; }
         public string Name { get; set; }
         public double Coast { get; set; }
         public string Description { get; set; }
 
-        public Sushi( string name, double coast, string description)
+        public Sushi( int id, string name, double coast, string description)
         {
             //id++;
-            Id = _id++;
+            Id = id;
             Name = name;
             Coast = coast;
             Description = description;

@@ -21,7 +21,7 @@ namespace MySushiProject
             //var cw = Console.WindowWidth;
             //var ch = Console.WindowHeight;
             //*******************************************************
-            //Console.SetWindowSize(100, 40);
+            Console.SetWindowSize(100, 40);
             //*******************************************************
             //Sushi sushi = new Sushi( "jkdfhgdksj", 12, "description");
             //sushi.SushiListJSON();
@@ -93,22 +93,25 @@ namespace MySushiProject
                 
               switch (listMenuWindows)
               {
-                case EnumListWindows.Start:
+                    case EnumListWindows.Start:
                         newUser = new User();
-                        Console.Clear();
-                        Console.WriteLine("Здравствуйте");
-                        Console.WriteLine("Как Вас зовут?");
-                        newUser.Name = Console.ReadLine();
+                        StartWindow(newUser);
                         //newUser.Name = name;
                         listMenuWindows++;
-                    break;
+                        break;
 
-                case EnumListWindows.OrderOrMenu:
+                    case EnumListWindows.OrderOrMenu:
                         Console.Clear();
-                        Console.WriteLine($"{newUser.Name}, хотите посмотреть меню на сегодня?");
-                        Console.ReadLine();
-                        listMenuWindows++;
+                        //Console.WriteLine($"{newUser.Name}, хотите посмотреть меню на сегодня?");
+                        //Console.ReadLine();
+
+                        List<string> ls = new List<string>() { "Да", "Нет" };
+
+                        listMenuWindows = UIQuestion.UIQuestions(ls, $"\n{newUser.Name}, хотите посмотреть меню на сегодня?\n", listMenuWindows);
+
                         //listMenuWindows = UIMenu.UiMenus(Menu8, message, listMenuWindows);
+
+                        //listMenuWindows++;
                         break;
 
                 case EnumListWindows.MenuToday:
@@ -122,6 +125,17 @@ namespace MySushiProject
                         //Menu = sushiRepository.GetAll();
                         //Basket = new List<BasketOrder>();
                         Basket = new SushiRepository().GetAll();
+                        
+                        //*************************************
+                        //Sushi Menu = new BasketOrder("dsrhfg", 8, "kjdsfksdnjf");
+                        //BasketOrder Menu2 = new Sushi("dsrhfg", 8, "kjdsfksdnjf");
+
+                        //Menu.Add(new Sushi("dsrhfg", 8, "kjdsfksdnjf") );
+                        //for (int i = 0; i < Basket.Count; i++)
+                        //{
+                        //    Menu.Add(Basket[i]);
+                        //}
+                        //*************************************
                         
                         //var Menu = listSushi.SushiList();
                         
@@ -153,9 +167,9 @@ namespace MySushiProject
                 case EnumListWindows.CheckOrder:
                         Console.Clear();
                         //Order newOrder = new Order();
-                        newOrder.User = newUser;
+
                         newOrder.BasketOrders = Basket.Where(x => x.AmountInOrder != 0).ToList();
-                        newOrder.TotalCoast = SushiRepository.TotalCoast(newOrder.BasketOrders);
+
 
                         //Console.WriteLine($"{newUser.Name}, проверте Ваш заказ. \n");
 
@@ -168,8 +182,14 @@ namespace MySushiProject
                         //for (int i = 0; i < newOrder.BasketOrders.Count; i++)
                         //{
                         //    Console.WriteLine(newOrder.BasketOrders[i]);
-                        //    //"{Name}\t\t{AmountInOrder}\t\t{Coast}\t\t{CoastUnit = Math.Round(AmountInOrder * Coast, 2)}"
+                        //    //"{Name}\t\t{AmountInOrder}\t\t{Coast
+                        //    }\t\t{CoastUnit = Math.Round(AmountInOrder * Coast, 2)}"
                         //}
+
+                        newOrder.User = newUser;
+                        newOrder.BasketOrders = newOrder.BasketOrders.Where(x => x.AmountInOrder != 0).ToList();
+                        newOrder.TotalCoast = SushiRepository.TotalCoast(newOrder.BasketOrders);
+
 
                         //Console.WriteLine($"Общая стоимость заказа {newOrder.TotalCoast}\n");
 
@@ -225,7 +245,27 @@ namespace MySushiProject
 
         }
 
-        
+        private static void StartWindow(User newUser)
+        {
+            Console.Clear();
+            Console.SetCursorPosition(40, 10);
+            Console.WriteLine("Здравствуйте");
+            Console.SetCursorPosition(39, 12);
+            Console.WriteLine("Как Вас зовут?");
+
+            Console.SetCursorPosition(33, 15);
+            Console.WriteLine("**************************");
+            Console.SetCursorPosition(33, 16);
+            Console.WriteLine("***                    ***");
+            Console.SetCursorPosition(33, 17);
+            Console.WriteLine("**************************");
+
+            Console.SetCursorPosition(40, 16);
+            Console.CursorVisible = true;
+            newUser.Name = Console.ReadLine();
+            Console.CursorVisible = false;
+        }
+
     }
 }
 

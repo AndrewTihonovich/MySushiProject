@@ -1,23 +1,17 @@
 ﻿using MySushiProject.BL;
-using MySushiProject.Repository;
-using MySushiProject.UI.Enum;
-using MySushiProject.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MySushiProject.UI
+namespace MySushiProject.UI.Enum
 {
-    class UIMenu
+    class UIQuestion
     {
-
-
-        //static bool isEnter = false;
-        public static EnumListWindows UiMenus(List<BasketOrder> Basket, string message, EnumListWindows listMenu)    //, out int posMenu)
+        public static EnumListWindows UIQuestions(List<string> MenuButton, string message, EnumListWindows listMenu)    //, out int posMenu)
         {
-            ConsoleKey butNumber=0;
+            ConsoleKey butNumber = 0;
             var keyMin = ConsoleKey.Subtract;
             var keyPlus = ConsoleKey.Add;
             var keyU = ConsoleKey.UpArrow;
@@ -27,12 +21,12 @@ namespace MySushiProject.UI
             var keyInfo = ConsoleKey.I;
             var keyF1 = ConsoleKey.F1;
 
-            int count = Basket.Count;
+            int count = MenuButton.Count;
             int cursor = 0;
 
             while (butNumber != ConsoleKey.Enter && butNumber != ConsoleKey.Escape) //Console.ReadKey().Key != ConsoleKey.Enter
             {
-                WriteDataFromList(Basket, message, cursor);
+                WriteDataFromList(MenuButton, message, cursor);
 
                 butNumber = Console.ReadKey().Key;
 
@@ -54,40 +48,40 @@ namespace MySushiProject.UI
                     }
                 }
 
-                if (butNumber == keyPlus)////
-                {
-                    Basket[cursor].AmountInOrder++;
-                    if (Basket[cursor].AmountInOrder > 10)
-                    {
-                        Basket[cursor].AmountInOrder = 10;
-                    }
-                }
+                //if (butNumber == keyPlus)////
+                //{
+                //    MenuButton[cursor].AmountInOrder++;
+                //    if (MenuButton[cursor].AmountInOrder > 10)
+                //    {
+                //        MenuButton[cursor].AmountInOrder = 10;
+                //    }
+                //}
 
-                if (butNumber == keyMin)////
-                {
-                    Basket[cursor].AmountInOrder--;
-                    if (Basket[cursor].AmountInOrder < 0)
-                    {
-                        Basket[cursor].AmountInOrder = 0;
-                    }
-                }
+                //if (butNumber == keyMin)////
+                //{
+                //    MenuButton[cursor].AmountInOrder--;
+                //    if (MenuButton[cursor].AmountInOrder < 0)
+                //    {
+                //        MenuButton[cursor].AmountInOrder = 0;
+                //    }
+                //}
 
-                if (butNumber == keyInfo)
-                {
-                    Console.Clear();
-                    Console.WriteLine("\n\t****** Информация о продукте ******");
-                    Console.WriteLine();
-                    try
-                    {
-                        Console.WriteLine(Basket[cursor].Description);
-                    }
-                    catch (Exception)
-                    {
+                //if (butNumber == keyInfo)
+                //{
+                //    Console.Clear();
+                //    Console.WriteLine("\n\t****** Информация о продукте ******");
+                //    Console.WriteLine();
+                //    try
+                //    {
+                //        Console.WriteLine(MenuButton[cursor].Description);
+                //    }
+                //    catch (Exception)
+                //    {
 
-                    }
-                    Console.WriteLine("\n\n Нажмите любую клавишу чтобы вернуться");
-                    Console.ReadKey();
-                }
+                //    }
+                //    Console.WriteLine("\n\n Нажмите любую клавишу чтобы вернуться");
+                //    Console.ReadKey();
+                //}
 
                 if (butNumber == keyF1)////
                 {
@@ -110,9 +104,16 @@ namespace MySushiProject.UI
 
             //posMenu = cursor;
 
-            if (butNumber== keyEnt)
+            if (butNumber == keyEnt)
             {
-                listMenu++;
+                if (cursor==0)
+                {
+                    listMenu++;
+                }else
+                   {
+                      listMenu--;
+                   }
+                
                 //Order order = new Order() { TotalCoast= ListSushi.TotalCoast(Menu) };
 
             }
@@ -121,13 +122,13 @@ namespace MySushiProject.UI
             {
                 listMenu--;
             }
-            
+
             butNumber = 0;
 
             return listMenu;
         }
 
-        private static void WriteDataFromList(List<BasketOrder> Basket, string message, int cursor)
+        private static void WriteDataFromList(List<string> MenuButton, string message, int cursor)
         {
             //Console.WriteLine();
             Console.WriteLine($"\n{message}");
@@ -135,24 +136,23 @@ namespace MySushiProject.UI
 
             //Console.WriteLine("Название\t\t   Количество\t    Цена порции\t    Стоимость\t    Описание");
 
-            for (int i = 0; i < Basket.Count; i++)
+            for (int i = 0; i < MenuButton.Count; i++)
             {
                 if (cursor == i)
                 {
                     Console.BackgroundColor = ConsoleColor.Red;
-                    Console.WriteLine(Basket[i].ToString());
+                    Console.WriteLine(MenuButton[i].ToString());
                     Console.BackgroundColor = ConsoleColor.Black;
                 }
                 else
                 {
-                    Console.WriteLine(Basket[i].ToString());
+                    Console.WriteLine(MenuButton[i].ToString());
                 }
             }
 
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"\tИтоговая стоимость заказа \t...\t...\t...\t...\t{SushiRepository.TotalCoast(Basket)} ");
-            Console.ForegroundColor = ConsoleColor.White;
+            //Console.WriteLine();
+            //Console.WriteLine($"Итоговая стоимость заказа {SushiRepository.TotalCoast(Basket)} ");
         }
     }
 }
+
