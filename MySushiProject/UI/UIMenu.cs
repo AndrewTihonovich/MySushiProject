@@ -27,27 +27,26 @@ namespace MySushiProject.UI
 
             int count = Basket.Count;
             int cursor = 0;
-            int positionStartY = 4;
 
             while (butNumber != ConsoleKey.Enter && butNumber != ConsoleKey.Escape) //Console.ReadKey().Key != ConsoleKey.Enter
             {
-                Console.WriteLine();
-                Console.WriteLine($"{message}");
-                Console.WriteLine();
+                //Console.WriteLine();
+                Console.WriteLine($"\n{message}");
+                //Console.WriteLine();
 
-                Console.WriteLine("Название\t\t   Количество\t    Цена порции\t    Стоимость\t    Описание");
+                //Console.WriteLine("Название\t\t   Количество\t    Цена порции\t    Стоимость\t    Описание");
 
-                for (int i = positionStartY; i < positionStartY + count; i++)
+                for (int i = 0; i <  count; i++)
                 {
-                    if (cursor == i - positionStartY)
+                    if (cursor == i )
                     {
                         Console.BackgroundColor = (ConsoleColor)12;
-                        Console.WriteLine(Basket[i - positionStartY].ToString());
+                        Console.WriteLine(Basket[i].ToString());
                         Console.BackgroundColor = (ConsoleColor)0;
                     }
                     else
                     {
-                        Console.WriteLine(Basket[i - positionStartY].ToString());
+                        Console.WriteLine(Basket[i].ToString());
                     }
                 }
 
@@ -95,7 +94,7 @@ namespace MySushiProject.UI
                 if (butNumber == keyInfo)
                 {
                     Console.Clear();
-                    Console.WriteLine("Description\n\n Нажмите любую клавишу чтобы вернуться");
+                    Console.WriteLine("\n\t****** Информация о продукте ******");
                     Console.WriteLine();
                     try
                     {
@@ -105,6 +104,7 @@ namespace MySushiProject.UI
                     {
 
                     }
+                    Console.WriteLine("\n\n Нажмите любую клавишу чтобы вернуться");
                     Console.ReadKey();
                 }
 
@@ -118,7 +118,7 @@ namespace MySushiProject.UI
                         "Для вызова справки нажмите F1 \n" +
                         "Для просмотра описания нажмите I\n "); ;
                     Console.WriteLine();
-                    Console.WriteLine("Description\n\n Нажмите любую клавишу чтобы вернуться"); 
+                    Console.WriteLine("\n\n Нажмите любую клавишу чтобы вернуться"); 
                     Console.ReadKey();
                 }
 

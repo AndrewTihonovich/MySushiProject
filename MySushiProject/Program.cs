@@ -16,12 +16,13 @@ namespace MySushiProject
         static void Main(string[] args)
         {
             //Console.SetWindowSize(Console.WindowWidth, 1000);
-
+           
             //Console.CursorVisible = false;
             //var cw = Console.WindowWidth;
             //var ch = Console.WindowHeight;
-            Console.SetWindowSize(100, 30);
-
+            //*******************************************************
+            //Console.SetWindowSize(100, 40);
+            //*******************************************************
             //Sushi sushi = new Sushi( "jkdfhgdksj", 12, "description");
             //sushi.SushiListJSON();
 
@@ -113,7 +114,9 @@ namespace MySushiProject
                 case EnumListWindows.MenuToday:
                         Console.Clear();
                         Console.CursorVisible = false;
-                        message = $"{newUser.Name}, Вы можете сделать заказ из меню на сегодня:";
+                        message = $"{newUser.Name}, Вы можете сделать заказ из меню на сегодня:" +
+                            $"\n\n\n\n" +
+                            $"\tНазвание\t\t   Количество\t    Цена порции\t    Стоимость\t    Описание\n";
                         //ListSushi listSushi = new ListSushi();
 
                         //Menu = sushiRepository.GetAll();
@@ -151,23 +154,29 @@ namespace MySushiProject
                         Console.Clear();
                         //Order newOrder = new Order();
                         newOrder.User = newUser;
-                        newOrder.BasketOrders = Basket.Where(x => x.CoastUnit != 0).ToList();
+                        newOrder.BasketOrders = Basket.Where(x => x.AmountInOrder != 0).ToList();
                         newOrder.TotalCoast = SushiRepository.TotalCoast(newOrder.BasketOrders);
 
-                        Console.WriteLine($"{newUser.Name}, проверте Ваш заказ. \n");
+                        //Console.WriteLine($"{newUser.Name}, проверте Ваш заказ. \n");
 
-                        Console.WriteLine("Название\t\t   Количество\t    Цена порции\t    Стоимость\t");
-                        for (int i = 0; i < newOrder.BasketOrders.Count; i++)
-                        {
-                            Console.WriteLine(newOrder.BasketOrders[i]);
-                            //"{Name}\t\t{AmountInOrder}\t\t{Coast}\t\t{CoastUnit = Math.Round(AmountInOrder * Coast, 2)}"
-                        }
-                        Console.WriteLine($"Общая стоимость заказа {newOrder.TotalCoast}\n");
+                        //Console.WriteLine("Название\t\t   Количество\t    Цена порции\t    Стоимость\t");
+                        message = $" {newUser.Name}, проверте Ваш заказ. Все верно?" +
+                            $"\n\n\n\n" +
+                            $"\tНазвание\t\t   Количество\t    Цена порции\t    Стоимость\t\n";
+                        listMenuWindows = UIMenu.UiMenus(newOrder.BasketOrders, message, listMenuWindows);
 
-                        Console.WriteLine("Все верно?");
-                        Console.ReadLine(); // validation!!!!!!
+                        //for (int i = 0; i < newOrder.BasketOrders.Count; i++)
+                        //{
+                        //    Console.WriteLine(newOrder.BasketOrders[i]);
+                        //    //"{Name}\t\t{AmountInOrder}\t\t{Coast}\t\t{CoastUnit = Math.Round(AmountInOrder * Coast, 2)}"
+                        //}
 
-                        listMenuWindows++;
+                        //Console.WriteLine($"Общая стоимость заказа {newOrder.TotalCoast}\n");
+
+                        //Console.WriteLine("Все верно?");
+                        //Console.ReadLine(); 
+
+                        //listMenuWindows++;
                         break;
 
                 case EnumListWindows.End:

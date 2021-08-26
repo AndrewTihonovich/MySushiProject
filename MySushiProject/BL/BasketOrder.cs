@@ -22,11 +22,11 @@ namespace MySushiProject.BL
         {
             if (this.Name.Length > 15)
             {
-                return $"{Name}\t\t{AmountInOrder}\t\t{Coast}\t\t{CoastUnit = Math.Round(AmountInOrder * Coast, 2)}\t    ";//Нажмите I
+                return $"\t{Name}\t\t{AmountInOrder}\t\t{Coast}\t\t{CoastUnit = Math.Round(AmountInOrder * Coast, 2)}\t        i";//Нажмите I
             }
             else
               {
-                return $"{Name}\t\t\t{AmountInOrder}\t\t{Coast}\t\t{CoastUnit = Math.Round(AmountInOrder * Coast, 2)}\t    ";
+                return $"\t{Name}\t\t\t{AmountInOrder}\t\t{Coast}\t\t{CoastUnit = Math.Round(AmountInOrder * Coast, 2)}\t        i";
               }
         }
 
