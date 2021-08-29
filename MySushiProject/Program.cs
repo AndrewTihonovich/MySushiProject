@@ -1,10 +1,13 @@
 ﻿using MySushiProject.BL;
+using MySushiProject.Logger;
+using MySushiProject.Logger.Enum;
 using MySushiProject.Repository;
 using MySushiProject.UI;
 using MySushiProject.UI.Enum;
 using MySushiProject.Users;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace MySushiProject
@@ -23,6 +26,14 @@ namespace MySushiProject
             //*******************************************************
             Console.SetWindowSize(100, 40);
             //*******************************************************
+
+
+            //    ******************   CreateLogger   ******************
+            string path = @"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Logger\Logs\";
+            Log.CreateLogger();
+            Log.logger.LogConfig(path, 30000, MinLogLevel.Debug);
+            //    ******************   CreateLogger   ******************
+
             //Sushi sushi = new Sushi( "jkdfhgdksj", 12, "description");
             //sushi.SushiListJSON();
 
@@ -79,8 +90,11 @@ namespace MySushiProject
             EnumListWindows listMenuWindows = 0;
             //EnumListMenu listMenu2 = 0;
             SushiRepository sushiRepository = new SushiRepository();
+            Log.logger.Itfo("Create sushiRepository");
             UsersRepository usersRepository = new UsersRepository();
+            Log.logger.Itfo("Create usersRepository");
             OrderRepository orderRepository = new OrderRepository();
+            Log.logger.Itfo("Create orderRepository");
             User newUser = new User();
             Order newOrder = new Order();
             
@@ -140,7 +154,7 @@ namespace MySushiProject
                         //var Menu = listSushi.SushiList();
                         
                         listMenuWindows = UIMenu.UiMenus(Basket, message, listMenuWindows);
-                        listMenuWindows = EnumListWindows.CheckOrder;
+                        //listMenuWindows = EnumListWindows.CheckOrder;
                         break;
 
                 case EnumListWindows.EnterPhone:
@@ -175,7 +189,8 @@ namespace MySushiProject
 
                         //Console.WriteLine("Название\t\t   Количество\t    Цена порции\t    Стоимость\t");
                         message = $" {newUser.Name}, проверте Ваш заказ. Все верно?" +
-                            $"\n\n\n\n" +
+                            $"\n\n\n" +
+                            $"\tАдрес доставки: {newUser.Address}\n" +
                             $"\tНазвание\t\t   Количество\t    Цена порции\t    Стоимость\t\n";
                         listMenuWindows = UIMenu.UiMenus(newOrder.BasketOrders, message, listMenuWindows);
 
@@ -264,6 +279,8 @@ namespace MySushiProject
             Console.CursorVisible = true;
             newUser.Name = Console.ReadLine();
             Console.CursorVisible = false;
+
+            Log.logger.Debug("StartWindow complite");
         }
 
     }
