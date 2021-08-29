@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Folder Include="Logger\Logs\" />
+    <Folder Include="Validation\" />
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,7 @@ namespace MySushiProject.Repository
         public void Add(T item);
         public List<T> GetAll();
         public T GetById(Guid id);
-        public void Delete(Guid id);
-        public void Update(T item);
+        public void Delete(Guid id);//
+        public void Update(T item);//
     }
 }
