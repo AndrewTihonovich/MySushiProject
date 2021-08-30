@@ -13,6 +13,10 @@ namespace MySushiProject.BL
         public List<BasketOrder> BasketOrders { get; set; }
         public User User { get; set; }
         public double TotalCoast { get; set; }
+        public DateTime Date { get; set; }
+        public bool isCompleted { get; set; } = false;
+        public bool isDelivered { get; set; } = false;
+        public bool isPaid { get; set; } = false;
 
         public override string ToString()
         {

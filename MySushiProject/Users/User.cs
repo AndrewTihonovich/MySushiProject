@@ -10,7 +10,7 @@ namespace MySushiProject.Users
     class User
     {
         public Guid Id { get;} = Guid.NewGuid();
-        [Required]
+        [Required(ErrorMessage ="Имя не должно быть пустым")]
         public string Name { get; set; }
         [Phone]
         public string Phone { get; set; }

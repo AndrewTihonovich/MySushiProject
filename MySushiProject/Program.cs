@@ -1,6 +1,9 @@
-﻿using MySushiProject.Logger;
+﻿using MySushiProject.BL;
+using MySushiProject.Extensions;
+using MySushiProject.Logger;
 using MySushiProject.Logger.Enum;
 using MySushiProject.Service;
+using MySushiProject.Users;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,8 +23,7 @@ namespace MySushiProject
             Log.logger.LogConfig(path, 30000, MinLogLevel.Debug);
             //    ******************   CreateLogger   ******************
 
-
-
+            
             //Console.SetWindowSize(Console.WindowWidth, 1000);
 
             //Console.CursorVisible = false;
@@ -33,11 +35,24 @@ namespace MySushiProject
             //*******************************************************
 
 
+            
 
             //    ******************   StartSushiService   ******************
             SushisService.SushiServiceStart();
             //    ******************   StartSushiService   ******************
 
+
+            //Sushi su = new Sushi( 1, "ksd", 8, "kjslfjlf");
+
+            //User u1 = new User();
+            //u1.Name = "Name";
+            //u1.Phone = "+354956265846";
+            //u1.Email = "jdfhk@tu.vif";
+            //Order o1 = new Order();
+            //o1.User = u1;
+            //o1.Date = DateTime.Now;
+
+            //u1 = new User();
 
 
             //Sushi sushi = new Sushi( "jkdfhgdksj", 12, "description");

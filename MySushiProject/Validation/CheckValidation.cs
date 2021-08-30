@@ -9,12 +9,11 @@ namespace MySushiProject.Validation
 {
     class CheckValidation
     {
-        public static string CheckProperty( object obj)
+        internal string CheckProperty(object obj)
         {
             string errorMessage=null;
             var results = new List<ValidationResult>();
             var context = new ValidationContext(obj);
-
             if (!Validator.TryValidateObject(obj, context, results, true))
             {
                 foreach (var error in results)

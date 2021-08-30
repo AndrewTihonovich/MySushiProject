@@ -1,8 +1,10 @@
 ﻿using MySushiProject.BL;
 using MySushiProject.Logger;
 using MySushiProject.Repository;
+using MySushiProject.UI;
 using MySushiProject.UI.Enum;
 using MySushiProject.Users;
+using MySushiProject.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +33,11 @@ namespace MySushiProject.Service
             //List<BasketOrder> Menu = sushiRepository.GetAll();
             List<BasketOrder> Basket = new List<BasketOrder>();
 
+            CheckValidation valid = new CheckValidation();
+
+            bool isValid = true;
+            string errMesUi = null;
+
 
             while (true)
             {
@@ -39,16 +46,25 @@ namespace MySushiProject.Service
                 {
                     case EnumListWindows.Start:
                         newUser = new User();
-                        StartWindow(newUser);
-                        //newUser.Name = name;
-                        //newUser.Name = "Bob";
 
 
-                        if ( Validation.CheckValidation.CheckProperty(newUser)!=null)
+                        newUser = Windows.StartWindow(newUser, isValid, errMesUi);
+
+
+                        
+                        if ( valid.CheckProperty(newUser)==null)
                         {
-                            Console.WriteLine("NOT VALID");
-                            Log.logger.Itfo($"Не корректный ввод имени пользователя NOT VALID");
+                            isValid = true;
+                            listMenuWindows++;
+                            errMesUi = null;
+                            break;
                         }
+
+                        errMesUi = valid.CheckProperty(newUser);
+                        isValid = false;
+
+
+
 
 
                         //if (!string.IsNullOrWhiteSpace(newUser.Name))
@@ -56,9 +72,13 @@ namespace MySushiProject.Service
                         //    listMenuWindows++;
                         //}
                         //else { }
+                        
 
 
-                        listMenuWindows++;
+                        Log.logger.Itfo($"Не корректный ввод имени пользователя NOT VALID\n\t\tValidation.CheckValidation.CheckProperty(newUser)");
+                        
+
+
                         break;
 
                     case EnumListWindows.OrderOrMenu:
@@ -111,7 +131,7 @@ namespace MySushiProject.Service
 
 
 
-                        if (Validation.CheckValidation.CheckProperty(newUser) != null)
+                        if (valid.CheckProperty(newUser) == null)
                         {
                             Console.WriteLine("NOT VALID");
                             Log.logger.Itfo($"Не корректный ввод телефона пользователя NOT VALID");
@@ -130,7 +150,7 @@ namespace MySushiProject.Service
 
 
 
-                        if (Validation.CheckValidation.CheckProperty(newUser) != null)
+                        if (valid.CheckProperty(newUser) == null)
                         {
                             Console.WriteLine("NOT VALID");
                             Log.logger.Itfo($"Не корректный ввод Email пользователя NOT VALID");
@@ -151,8 +171,10 @@ namespace MySushiProject.Service
 
                     case EnumListWindows.CheckOrder:
                         Console.Clear();
-                        //Order newOrder = new Order();
 
+                        ///////////////////////////////
+                        newOrder = new Order();
+                        ////////////////////////////
                         newOrder.BasketOrders = Basket.Where(x => x.AmountInOrder != 0).ToList();
 
 
@@ -175,6 +197,7 @@ namespace MySushiProject.Service
                         newOrder.User = newUser;
                         newOrder.BasketOrders = newOrder.BasketOrders.Where(x => x.AmountInOrder != 0).ToList();
                         newOrder.TotalCoast = SushiRepository.TotalCoast(newOrder.BasketOrders);
+                        newOrder.Date = DateTime.Now;
 
 
                         //Console.WriteLine($"Общая стоимость заказа {newOrder.TotalCoast}\n");
@@ -188,10 +211,10 @@ namespace MySushiProject.Service
                     case EnumListWindows.End:
 
                         usersRepository.Add(newUser);
-                        newUser = new User();//
+                        //////////////////////////////////newUser = new User();//
                         //Add user in repo
                         orderRepository.Add(newOrder);
-                        newOrder = new Order();//
+                        /////////////////////////////////newOrder = new Order();//
                         //Add Order in repo
 
                         //Basket = default;
@@ -223,27 +246,6 @@ namespace MySushiProject.Service
             
         }
 
-        private static void StartWindow(User newUser)
-        {
-            Log.logger.Debug($"Открыто окно StartWindow"); 
-            Console.Clear();
-            Console.SetCursorPosition(40, 10);
-            Console.WriteLine("Здравствуйте");
-            Console.SetCursorPosition(39, 12);
-            Console.WriteLine("Как Вас зовут?");
-
-            Console.SetCursorPosition(33, 15);
-            Console.WriteLine("**************************");
-            Console.SetCursorPosition(33, 16);
-            Console.WriteLine("***                    ***");
-            Console.SetCursorPosition(33, 17);
-            Console.WriteLine("**************************");
-
-            Console.SetCursorPosition(40, 16);
-            Console.CursorVisible = true;
-            newUser.Name = Console.ReadLine();
-
-            Console.CursorVisible = false;
-        }
+       
     }
 }
