@@ -14,21 +14,23 @@ namespace MySushiProject
         
         static void Main(string[] args)
         {
-            //Console.SetWindowSize(Console.WindowWidth, 1000);
-           
-            //Console.CursorVisible = false;
-            //var cw = Console.WindowWidth;
-            //var ch = Console.WindowHeight;
-            //*******************************************************
-            Console.SetWindowSize(100, 40);
-            //*******************************************************
-
-
             //    ******************   CreateLogger   ******************
             string path = @"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Logger\Logs\";
             Log.CreateLogger();
             Log.logger.LogConfig(path, 30000, MinLogLevel.Debug);
             //    ******************   CreateLogger   ******************
+
+
+
+            //Console.SetWindowSize(Console.WindowWidth, 1000);
+
+            //Console.CursorVisible = false;
+            //var cw = Console.WindowWidth;
+            //var ch = Console.WindowHeight;
+            //*******************************************************
+            Console.SetWindowSize(100, 40);
+            Log.logger.Debug("Изменен размер консольного окна");
+            //*******************************************************
 
 
 

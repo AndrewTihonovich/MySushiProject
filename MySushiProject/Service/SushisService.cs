@@ -15,6 +15,7 @@ namespace MySushiProject.Service
     {
         internal static void SushiServiceStart()
         {
+            Log.logger.Itfo("Запущен сервис SushiService");
             string message;
             EnumListWindows listMenuWindows = 0;
             //EnumListMenu listMenu2 = 0;
@@ -40,12 +41,24 @@ namespace MySushiProject.Service
                         newUser = new User();
                         StartWindow(newUser);
                         //newUser.Name = name;
-                        if (!string.IsNullOrWhiteSpace(newUser.Name))
+                        //newUser.Name = "Bob";
+
+
+                        if ( Validation.CheckValidation.CheckProperty(newUser)!=null)
                         {
-                            listMenuWindows++;
+                            Console.WriteLine("NOT VALID");
+                            Log.logger.Itfo($"Не корректный ввод имени пользователя NOT VALID");
                         }
-                        else { }
-                        //listMenuWindows++;
+
+
+                        //if (!string.IsNullOrWhiteSpace(newUser.Name))
+                        //{
+                        //    listMenuWindows++;
+                        //}
+                        //else { }
+
+
+                        listMenuWindows++;
                         break;
 
                     case EnumListWindows.OrderOrMenu:
@@ -95,6 +108,18 @@ namespace MySushiProject.Service
                         Console.Clear();
                         Console.WriteLine($"{newUser.Name}, введите Ваш номер телефона");
                         newUser.Phone = Console.ReadLine(); // validation!!!!!!
+
+
+
+                        if (Validation.CheckValidation.CheckProperty(newUser) != null)
+                        {
+                            Console.WriteLine("NOT VALID");
+                            Log.logger.Itfo($"Не корректный ввод телефона пользователя NOT VALID");
+                        }
+
+
+
+
                         listMenuWindows++;
                         break;
 
@@ -102,13 +127,25 @@ namespace MySushiProject.Service
                         Console.Clear();
                         Console.WriteLine($"{newUser.Name}, введите Ваш Email");
                         newUser.Email = Console.ReadLine(); // validation!!!!!!
+
+
+
+                        if (Validation.CheckValidation.CheckProperty(newUser) != null)
+                        {
+                            Console.WriteLine("NOT VALID");
+                            Log.logger.Itfo($"Не корректный ввод Email пользователя NOT VALID");
+                        }
+
+
+
+
                         listMenuWindows++;
                         break;
 
                     case EnumListWindows.EnterAddress:
                         Console.Clear();
                         Console.WriteLine($"{newUser.Name}, введите Ваш адрес для доставки");
-                        newUser.Address = Console.ReadLine(); // validation!!!!!!
+                        newUser.Address = Console.ReadLine(); 
                         listMenuWindows++;
                         break;
 
@@ -188,6 +225,7 @@ namespace MySushiProject.Service
 
         private static void StartWindow(User newUser)
         {
+            Log.logger.Debug($"Открыто окно StartWindow"); 
             Console.Clear();
             Console.SetCursorPosition(40, 10);
             Console.WriteLine("Здравствуйте");
@@ -206,8 +244,6 @@ namespace MySushiProject.Service
             newUser.Name = Console.ReadLine();
 
             Console.CursorVisible = false;
-
-            Log.logger.Debug("StartWindow complite");
         }
     }
 }

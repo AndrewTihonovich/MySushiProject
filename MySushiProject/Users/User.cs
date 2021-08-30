@@ -10,6 +10,7 @@ namespace MySushiProject.Users
     class User
     {
         public Guid Id { get;} = Guid.NewGuid();
+        [Required]
         public string Name { get; set; }
         [Phone]
         public string Phone { get; set; }
