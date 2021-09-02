@@ -9,9 +9,8 @@ using MySushiProject.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace MySushiProject.Service
 {
@@ -52,7 +51,6 @@ namespace MySushiProject.Service
 
             while (test)
             {
-
                 switch (listMenuWindows)
                 {
                     case EnumListWindows.Start:
@@ -197,10 +195,6 @@ namespace MySushiProject.Service
 
                     case EnumListWindows.End:
 
-
-
-
-
                         usersRepository.Add(newUser);
                         //////////////////////////////////newUser = new User();//
                         //Add user in repo
@@ -212,8 +206,13 @@ namespace MySushiProject.Service
                         //Basket = default;
 
 
-                        var userRepV = System.Text.Json.JsonSerializer.Serialize(usersRepository);
-                        File.AppendAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\File.txt", userRepV);
+                        //string userRep = JsonConvert.SerializeObject(newUser);
+                        //File.AppendAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\UserRep.txt", userRep);
+
+                        //string orderRep = JsonConvert.SerializeObject(newOrder);
+                        //File.AppendAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\OrderRep.txt", orderRep);
+
+
 
                         "Спасибо за заказ!".WriteTextCenter(5);
                         Console.ReadLine();
@@ -239,19 +238,11 @@ namespace MySushiProject.Service
                 
             }
 
-                string sushiRep = System.Text.Json.JsonSerializer.Serialize(sushiRepository);
+            //string userRep = JsonConvert.SerializeObject(newUser);
+            //File.AppendAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\UserRep.txt", userRep);
 
-                string userRep = System.Text.Json.JsonSerializer.Serialize(usersRepository);
-
-                string orderRep = System.Text.Json.JsonSerializer.Serialize(orderRepository);
-
-
-
-            
-
-
-
-
+            //string orderRep = JsonConvert.SerializeObject(newOrder);
+            //File.AppendAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\OrderRep.txt", orderRep);
 
 
 

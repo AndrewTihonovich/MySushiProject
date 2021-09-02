@@ -1,6 +1,8 @@
 ﻿using MySushiProject.Users;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +13,20 @@ namespace MySushiProject.Repository
     {
         List<User> _users = new List<User>();
 
+        public UsersRepository()
+        {
+            string json;
+            try
+            {
+                json = File.ReadAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\UserRep.txt", Encoding.UTF8);
+                _users = JsonConvert.DeserializeObject<List<User>>(json);
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Не найден файл JSON");
+                throw new FileNotFoundException();
+            }
+        }
         public void Add(User item)
         {
             _users.Add(item);
