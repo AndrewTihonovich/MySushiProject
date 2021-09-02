@@ -1,4 +1,4 @@
-﻿using MySushiProject.BL;
+﻿using MySushiProject.Models;
 using MySushiProject.Extensions;
 using MySushiProject.Repository;
 using MySushiProject.UI.Enum;
@@ -30,10 +30,11 @@ namespace MySushiProject.UI
 
             int count = Basket.Count;
             int cursor = 0;
+            string errMes=default;
 
             while (butNumber != ConsoleKey.Enter && butNumber != ConsoleKey.Escape) //Console.ReadKey().Key != ConsoleKey.Enter
             {
-                WriteDataFromList(Basket, message, cursor);
+                WriteDataFromList(Basket, message, cursor, errMes);
 
                 butNumber = Console.ReadKey().Key;
 
@@ -64,7 +65,7 @@ namespace MySushiProject.UI
                     }
                 }
 
-                if (butNumber == keyMin)////
+                if (butNumber == keyMin)////try
                 {
                     Basket[cursor].AmountInOrder--;
                     if (Basket[cursor].AmountInOrder < 0)
@@ -104,6 +105,31 @@ namespace MySushiProject.UI
                     Console.ReadKey();
                 }
 
+                if (butNumber == keyEnt)
+                {
+                    errMes = default;
+                    if (SushiRepository.TotalCoastOrder(Basket) <= 0)
+                    {
+                        errMes = "Заказ не может быть пустым";
+                    }
+                    else
+                    {
+                        listMenu++;
+
+                    }
+                }
+
+                if (butNumber == keyEsc)
+                {
+                    listMenu--;
+                }
+
+
+
+
+
+
+
 
                 Console.Clear();
 
@@ -111,24 +137,31 @@ namespace MySushiProject.UI
 
             //posMenu = cursor;
 
-            if (butNumber== keyEnt)
-            {
-                listMenu++;
-                //Order order = new Order() { TotalCoast= ListSushi.TotalCoast(Menu) };
+            //if (butNumber== keyEnt)
+            //{
+            //    errMes = default;
+            //    if (SushiRepository.TotalCoastOrder(Basket)<=0)
+            //    {
+            //        errMes = "Заказ не может быть пустым";
+            //    }
+            //     else
+            //      {
+            //        listMenu++;
+                    
+            //      }
+            //}
 
-            }
-
-            if (butNumber == keyEsc)
-            {
-                listMenu--;
-            }
+            //if (butNumber == keyEsc)
+            //{
+            //    listMenu--;
+            //}
             
             butNumber = 0;
 
             return listMenu;
         }
 
-        private static void WriteDataFromList(List<BasketOrder> Basket, string message, int cursor)
+        private static void WriteDataFromList(List<BasketOrder> Basket, string message, int cursor, string errMes)
         {
             //Console.WriteLine();
             //message.WriteTextCenter(2);
@@ -153,8 +186,14 @@ namespace MySushiProject.UI
 
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"\tИтоговая стоимость заказа \t...\t...\t...\t...\t{SushiRepository.TotalCoast(Basket)} ");
+            Console.WriteLine($"\tИтоговая стоимость заказа \t...\t...\t...\t...\t{SushiRepository.TotalCoastOrder(Basket)} ");
             Console.ForegroundColor = ConsoleColor.White;
+
+            Console.BackgroundColor = ConsoleColor.Red;
+            errMes.WriteTextCenter(Console.GetCursorPosition().Top + 1);
+            Console.BackgroundColor = ConsoleColor.Black;
+
+            "Для справки нажмете F1".WriteTextCenter(Console.GetCursorPosition().Top+1);
         }
     }
 }

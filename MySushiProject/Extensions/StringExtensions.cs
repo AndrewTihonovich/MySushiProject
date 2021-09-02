@@ -1,4 +1,4 @@
-﻿using MySushiProject.BL;
+﻿using MySushiProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +26,8 @@ namespace MySushiProject.Extensions
             {
                 Console.SetCursorPosition(left + mes.Length - 1, numdLine);
             }
-            else { Console.SetCursorPosition(left, numdLine); }
+            else 
+            { Console.SetCursorPosition(left, numdLine); }
         }
 
 

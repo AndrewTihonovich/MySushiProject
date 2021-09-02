@@ -15,11 +15,11 @@ namespace MySushiProject.Users
         public string Name { get; set; }
 
         //[Required(ErrorMessage = "Поле Телефон не должно быть пустым")]
-        [Phone]
+        [Phone(ErrorMessage = "Введен не корректный номер")]
         public string Phone { get; set; }
 
         //[Required(ErrorMessage = "Поле Email не должно быть пустым")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Введен не корректный Email")]
         public string Email { get; set; }
 
         //[Required(ErrorMessage = "Поле Адрес не должно быть пустым")]

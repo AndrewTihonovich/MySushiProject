@@ -1,4 +1,4 @@
-﻿using MySushiProject.BL;
+﻿using MySushiProject.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -56,7 +56,7 @@ namespace MySushiProject.Repository
             throw new NotImplementedException();
         }
 
-        public static double TotalCoast(List<BasketOrder> orders)
+        public static double TotalCoastOrder(List<BasketOrder> orders)
         {
             double totalCoast = 0;
             foreach (var item in orders)

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MySushiProject.BL
+namespace MySushiProject.Models
 {
     class Order
     {
@@ -20,7 +20,12 @@ namespace MySushiProject.BL
 
         public override string ToString()
         {
-            return $"{User.ToString()} \n Заказ:\n {BasketOrders.ToString()}\n Общая стоимость заказа {TotalCoast}";
+            return $"{User} \n Заказ:\n {BasketOrders}\n Общая стоимость заказа {TotalCoast}";
         }
+
+
+
+
+
     }
 }

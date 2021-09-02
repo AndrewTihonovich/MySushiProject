@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace MySushiProject.BL
+namespace MySushiProject.Models
 {
     class Sushi
     {
