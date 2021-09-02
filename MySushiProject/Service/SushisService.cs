@@ -1,4 +1,6 @@
 ﻿using MySushiProject.BL;
+using MySushiProject.Events;
+using MySushiProject.Extensions;
 using MySushiProject.Logger;
 using MySushiProject.Repository;
 using MySushiProject.UI;
@@ -37,6 +39,13 @@ namespace MySushiProject.Service
 
             bool isValid = true;
             string errMesUi = null;
+            string mes1= default;
+            string mes2=default;
+            string tempStr = default;
+
+            //listMenuWindows = EnumListWindows.EnterPhone;
+
+            int count = 0;
 
 
             while (true)
@@ -47,126 +56,167 @@ namespace MySushiProject.Service
                     case EnumListWindows.Start:
                         newUser = new User();
 
+                        mes1 = $"Здравствуйте!";
+                        mes2 = $"Как Вас Зовут?";
 
-                        newUser = Windows.StartWindow(newUser, isValid, errMesUi);
+                        UIEnterData.PaintWindow(isValid, errMesUi, mes1, mes2);
+
+                        //********************************
+
+                        listMenuWindows = UIEnterData.UIChekBut(listMenuWindows, out tempStr);
+                        newUser.Name = tempStr;
+                        //*********************************************
 
 
-                        
-                        if ( valid.CheckProperty(newUser)==null)
+
+
+                        //newUser.Name =  newUser.Name.PrintTextCenter(16);
+
+                        if (string.IsNullOrWhiteSpace(newUser.Name))
                         {
+                            errMesUi = "Поле Имя не должно быть пустым";
+                        }
+                        else { errMesUi = valid.CheckProperty(newUser.Name); }
+
+                        if (errMesUi != null)
+                        {
+                            Log.logger.Itfo($"Не корректный ввод имени пользователя: \n\t\t{errMesUi}");
+
+                            isValid = false;
+                        }
+                        else
+                        {
+                           
+
                             isValid = true;
                             listMenuWindows++;
                             errMesUi = null;
-                            break;
+                            count++;
+                            //break;
                         }
 
-                        errMesUi = valid.CheckProperty(newUser);
-                        isValid = false;
-
-
-
-
-
-                        //if (!string.IsNullOrWhiteSpace(newUser.Name))
-                        //{
-                        //    listMenuWindows++;
-                        //}
-                        //else { }
-                        
-
-
-                        Log.logger.Itfo($"Не корректный ввод имени пользователя NOT VALID\n\t\tValidation.CheckValidation.CheckProperty(newUser)");
-                        
 
 
                         break;
 
                     case EnumListWindows.OrderOrMenu:
                         Console.Clear();
-                        //Console.WriteLine($"{newUser.Name}, хотите посмотреть меню на сегодня?");
-                        //Console.ReadLine();
-
+                       
                         List<string> ls = new List<string>() { "Да", "Нет" };
 
-                        listMenuWindows = UIQuestion.UIQuestions(ls, $"\n{newUser.Name}, хотите посмотреть меню на сегодня?\n", listMenuWindows);
+                        listMenuWindows = UIQuestion.UIQuestions(ls, $"{newUser.Name}, хотите посмотреть меню на сегодня?", listMenuWindows);
 
-                        //listMenuWindows = UIMenu.UiMenus(Menu8, message, listMenuWindows);
-
-                        //listMenuWindows++;
                         break;
 
                     case EnumListWindows.MenuToday:
                         Console.Clear();
                         Console.CursorVisible = false;
-                        message = $"{newUser.Name}, Вы можете сделать заказ из меню на сегодня:" +
-                            $"\n\n\n\n" +
+                        message = $"\t{newUser.Name}, Вы можете сделать заказ из меню на сегодня:" +
+                            $"\n\n" +
                             $"\tНазвание\t\t   Количество\t    Цена порции\t    Стоимость\t    Описание\n";
-                        //ListSushi listSushi = new ListSushi();
-
-                        //Menu = sushiRepository.GetAll();
-                        //Basket = new List<BasketOrder>();
+                       
                         Basket = new SushiRepository().GetAll();
-
-                        //*************************************
-                        //Sushi Menu = new BasketOrder("dsrhfg", 8, "kjdsfksdnjf");
-                        //BasketOrder Menu2 = new Sushi("dsrhfg", 8, "kjdsfksdnjf");
-
-                        //Menu.Add(new Sushi("dsrhfg", 8, "kjdsfksdnjf") );
-                        //for (int i = 0; i < Basket.Count; i++)
-                        //{
-                        //    Menu.Add(Basket[i]);
-                        //}
-                        //*************************************
-
-                        //var Menu = listSushi.SushiList();
-
-                        listMenuWindows = UI.UIMenu.UiMenus(Basket, message, listMenuWindows);
+                       
+                        listMenuWindows = UIMenu.UiMenus(Basket, message, listMenuWindows);
                         //listMenuWindows = EnumListWindows.CheckOrder;
                         break;
 
                     case EnumListWindows.EnterPhone:
                         Console.Clear();
-                        Console.WriteLine($"{newUser.Name}, введите Ваш номер телефона");
-                        newUser.Phone = Console.ReadLine(); // validation!!!!!!
 
+                         mes1 = $"{newUser.Name},";
+                         mes2 = $"введите Ваш номер телефона";
 
+                        UIEnterData.PaintWindow(isValid, errMesUi, mes1, mes2);
 
-                        if (valid.CheckProperty(newUser) == null)
+                        listMenuWindows = UIEnterData.UIChekBut(listMenuWindows, out tempStr);
+                        newUser.Phone = tempStr;
+
+                        //newUser.Phone = newUser.Phone.PrintTextCenter(16);
+                        if (string.IsNullOrWhiteSpace(newUser.Phone))
                         {
-                            Console.WriteLine("NOT VALID");
-                            Log.logger.Itfo($"Не корректный ввод телефона пользователя NOT VALID");
+                            errMesUi = "Поле Телефон не должно быть пустым";
                         }
+                        else { errMesUi = valid.CheckProperty(newUser); }
 
+                        //errMesUi = valid.CheckProperty(newUser);
+                        if (errMesUi == null)
+                        {
+                            isValid = true;
+                            listMenuWindows++;
+                            errMesUi = null;
+                            break;
+                        }
+                        Log.logger.Itfo($"Не корректный ввод телефона пользователя: \n\t\t{errMesUi}");
 
+                        isValid = false;
 
-
-                        listMenuWindows++;
                         break;
 
                     case EnumListWindows.EnterEmail:
                         Console.Clear();
-                        Console.WriteLine($"{newUser.Name}, введите Ваш Email");
-                        newUser.Email = Console.ReadLine(); // validation!!!!!!
 
+                        mes1 = $"{newUser.Name},";
+                        mes2 = $"введите Ваш Email адрес";
 
+                        UIEnterData.PaintWindow(isValid, errMesUi, mes1, mes2);
 
-                        if (valid.CheckProperty(newUser) == null)
+                        listMenuWindows = UIEnterData.UIChekBut(listMenuWindows, out tempStr);
+                        newUser.Email = tempStr;
+
+                        //newUser = UIEnterData.StartWindow(newUser, isValid, errMesUi);
+                        //newUser.Email = newUser.Email.PrintTextCenter(16);
+
+                        if (string.IsNullOrWhiteSpace(newUser.Email))
                         {
-                            Console.WriteLine("NOT VALID");
-                            Log.logger.Itfo($"Не корректный ввод Email пользователя NOT VALID");
+                            errMesUi = "Поле Email адрес не должно быть пустым";
                         }
+                        else { errMesUi = valid.CheckProperty(newUser); }
 
+                        //errMesUi = valid.CheckProperty(newUser);
+                        if (errMesUi == null)
+                        {
+                            isValid = true;
+                            listMenuWindows++;
+                            errMesUi = null;
+                            break;
+                        }
+                        Log.logger.Itfo($"Не корректный ввод Email адреса пользователя: \n\t\t{errMesUi}");
 
-
-
-                        listMenuWindows++;
+                        isValid = false;
                         break;
 
                     case EnumListWindows.EnterAddress:
                         Console.Clear();
-                        Console.WriteLine($"{newUser.Name}, введите Ваш адрес для доставки");
-                        newUser.Address = Console.ReadLine(); 
-                        listMenuWindows++;
+
+                        mes1 = $"{newUser.Name},";
+                        mes2 = $"введите Ваш адрес для доставки";
+
+                        UIEnterData.PaintWindow(isValid, errMesUi, mes1, mes2);
+
+                        listMenuWindows = UIEnterData.UIChekBut(listMenuWindows, out tempStr);
+                        newUser.Address = tempStr;
+
+                        //newUser = UIEnterData.StartWindow(newUser, isValid, errMesUi);
+                        //newUser.Address = newUser.Address.PrintTextCenter(16);
+
+                        if (string.IsNullOrWhiteSpace(newUser.Address))
+                        {
+                            errMesUi = "Поле Адрес доставки не должно быть пустым";
+                        }
+                        else { errMesUi = valid.CheckProperty(newUser); }
+
+                        //errMesUi = valid.CheckProperty(newUser);
+                        if (errMesUi == null)
+                        {
+                            isValid = true;
+                            listMenuWindows++;
+                            errMesUi = null;
+                            break;
+                        }
+                        Log.logger.Itfo($"Не корректный ввод адреса доставки пользователя: \n\t\t{errMesUi}");
+
+                        isValid = false;
                         break;
 
                     case EnumListWindows.CheckOrder:
@@ -178,21 +228,16 @@ namespace MySushiProject.Service
                         newOrder.BasketOrders = Basket.Where(x => x.AmountInOrder != 0).ToList();
 
 
-                        //Console.WriteLine($"{newUser.Name}, проверте Ваш заказ. \n");
-
-                        //Console.WriteLine("Название\t\t   Количество\t    Цена порции\t    Стоимость\t");
-                        message = $" {newUser.Name}, проверте Ваш заказ. Все верно?" +
-                            $"\n\n\n" +
-                            $"\tАдрес доставки: {newUser.Address}\n" +
+                        message = $"\t {newUser.Name}, проверте Ваш заказ. Все верно?" +
+                            $"\n\n" +
+                            $"\tЗаказчик: {newUser.Name}\n" +
+                            $"\tТелефон: {newUser.Phone}\n" +
+                            $"\tАдрес доставки: {newUser.Address}\n\n" +
+                            
                             $"\tНазвание\t\t   Количество\t    Цена порции\t    Стоимость\t\n";
+
                         listMenuWindows = UI.UIMenu.UiMenus(newOrder.BasketOrders, message, listMenuWindows);
 
-                        //for (int i = 0; i < newOrder.BasketOrders.Count; i++)
-                        //{
-                        //    Console.WriteLine(newOrder.BasketOrders[i]);
-                        //    //"{Name}\t\t{AmountInOrder}\t\t{Coast
-                        //    }\t\t{CoastUnit = Math.Round(AmountInOrder * Coast, 2)}"
-                        //}
 
                         newOrder.User = newUser;
                         newOrder.BasketOrders = newOrder.BasketOrders.Where(x => x.AmountInOrder != 0).ToList();
@@ -200,12 +245,6 @@ namespace MySushiProject.Service
                         newOrder.Date = DateTime.Now;
 
 
-                        //Console.WriteLine($"Общая стоимость заказа {newOrder.TotalCoast}\n");
-
-                        //Console.WriteLine("Все верно?");
-                        //Console.ReadLine(); 
-
-                        //listMenuWindows++;
                         break;
 
                     case EnumListWindows.End:
@@ -214,12 +253,13 @@ namespace MySushiProject.Service
                         //////////////////////////////////newUser = new User();//
                         //Add user in repo
                         orderRepository.Add(newOrder);
+                       
                         /////////////////////////////////newOrder = new Order();//
                         //Add Order in repo
 
                         //Basket = default;
 
-                        Console.WriteLine("Спасибо за заказ!");
+                        "Спасибо за заказ!".WriteTextCenter(5);
                         Console.ReadLine();
                         //Event Send to Email
 
@@ -246,6 +286,51 @@ namespace MySushiProject.Service
             
         }
 
-       
+        //private static EnumListWindows UIChekBut(EnumListWindows listMenuWindows, User newUser)
+        //{
+        //    //enterStr = null;
+        //    char symb = default;
+
+        //    do
+        //    {
+        //        symb = Console.ReadKey().KeyChar;
+
+        //        if (!char.IsControl(symb))
+        //        {
+
+
+        //            newUser.Name = newUser.Name + symb;
+        //        }
+        //        //numdStr = 16;
+
+        //        if (symb.Equals('\b'))
+        //        {
+        //            if (newUser.Name != null)
+        //            {
+        //                if (newUser.Name.Length > 0)
+        //                {
+        //                    newUser.Name = newUser.Name.Remove(newUser.Name.Length - 1);
+
+        //                    //numdStr = 16;
+        //                    StringExtensions.WriteTextCenter("                                  ", 16);
+
+        //                }
+
+        //            }
+
+        //        }
+
+        //        if (symb.Equals('\u001b'))
+        //        {
+        //            listMenuWindows--;
+        //            break;
+        //        }
+
+        //        StringExtensions.WriteTextCenter(newUser.Name, 16);
+
+        //    } while (!symb.Equals('\r'));
+        //    return listMenuWindows;
+        //}
+
     }
 }

@@ -20,6 +20,7 @@ namespace MySushiProject.Validation
                 {
                     errorMessage = error.ErrorMessage;
                 }
+                //errorMessage = results.FirstOrDefault().ToString();
             }
             return errorMessage;
         }

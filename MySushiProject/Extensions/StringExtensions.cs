@@ -13,7 +13,7 @@ namespace MySushiProject.Extensions
         {
             int tempLength = 0;
             int width = Console.WindowWidth;
-            if (mes != null)
+            if (mes != "" && mes !=null )
             {
                 tempLength = mes.Length;
             }
@@ -22,10 +22,11 @@ namespace MySushiProject.Extensions
 
             Console.SetCursorPosition(left, numdLine);
             Console.Write(mes);
-            if (mes != null)
+            if (mes != "" && mes != null)
             {
                 Console.SetCursorPosition(left + mes.Length - 1, numdLine);
             }
+            else { Console.SetCursorPosition(left, numdLine); }
         }
 
 
@@ -39,36 +40,52 @@ namespace MySushiProject.Extensions
             {
                 symb = Console.ReadKey().KeyChar;
 
-                if (char.IsLetterOrDigit(symb) || symb.Equals('\b'))
+                if (!char.IsControl(symb))
                 {
+                    
+                    //if (symb.Equals('\b'))
+                    //{
+                    //    if (enterStr != null)
+                    //    {
+                    //        if (enterStr.Length > 0)
+                    //        {
+                    //            enterStr = enterStr.Remove(enterStr.Length - 1);
 
+                    //            //numdStr = 16;
+                    //            WriteTextCenter("                                  ", numdLine);
 
+                    //        }
 
-                    if (symb.Equals('\b'))
+                    //    }
+
+                    //}
+                    //else
+                     enterStr = enterStr + symb; 
+                }
+                //numdStr = 16;
+
+                if (symb.Equals('\b'))
+                {
+                    if (enterStr != null)
                     {
-                        if (enterStr != null)
+                        if (enterStr.Length > 0)
                         {
-                            if (enterStr.Length > 0)
-                            {
-                                enterStr = enterStr.Remove(enterStr.Length - 1);
+                            enterStr = enterStr.Remove(enterStr.Length - 1);
 
-                                //numdStr = 16;
-                                WriteTextCenter("                                ", numdLine);
-
-                            }
+                            //numdStr = 16;
+                            WriteTextCenter("                                  ", numdLine);
 
                         }
 
                     }
-                    else
-                    { enterStr = enterStr + symb; }
-                }
-                //numdStr = 16;
-                
 
-                WriteTextCenter(enterStr, numdLine);
+                }
+
+
+                    WriteTextCenter(enterStr, numdLine);
 
             } while (!symb.Equals('\r'));
+            //listMenuWindows++;
             return enterStr;
         }
 

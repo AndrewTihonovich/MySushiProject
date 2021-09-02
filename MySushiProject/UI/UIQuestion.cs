@@ -1,4 +1,5 @@
 ﻿using MySushiProject.BL;
+using MySushiProject.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,41 +49,6 @@ namespace MySushiProject.UI.Enum
                     }
                 }
 
-                //if (butNumber == keyPlus)////
-                //{
-                //    MenuButton[cursor].AmountInOrder++;
-                //    if (MenuButton[cursor].AmountInOrder > 10)
-                //    {
-                //        MenuButton[cursor].AmountInOrder = 10;
-                //    }
-                //}
-
-                //if (butNumber == keyMin)////
-                //{
-                //    MenuButton[cursor].AmountInOrder--;
-                //    if (MenuButton[cursor].AmountInOrder < 0)
-                //    {
-                //        MenuButton[cursor].AmountInOrder = 0;
-                //    }
-                //}
-
-                //if (butNumber == keyInfo)
-                //{
-                //    Console.Clear();
-                //    Console.WriteLine("\n\t****** Информация о продукте ******");
-                //    Console.WriteLine();
-                //    try
-                //    {
-                //        Console.WriteLine(MenuButton[cursor].Description);
-                //    }
-                //    catch (Exception)
-                //    {
-
-                //    }
-                //    Console.WriteLine("\n\n Нажмите любую клавишу чтобы вернуться");
-                //    Console.ReadKey();
-                //}
-
                 if (butNumber == keyF1)////
                 {
                     Console.Clear();
@@ -102,8 +68,6 @@ namespace MySushiProject.UI.Enum
 
             }
 
-            //posMenu = cursor;
-
             if (butNumber == keyEnt)
             {
                 if (cursor==0)
@@ -114,7 +78,7 @@ namespace MySushiProject.UI.Enum
                       listMenu--;
                    }
                 
-                //Order order = new Order() { TotalCoast= ListSushi.TotalCoast(Menu) };
+                
 
             }
 
@@ -131,7 +95,9 @@ namespace MySushiProject.UI.Enum
         private static void WriteDataFromList(List<string> MenuButton, string message, int cursor)
         {
             //Console.WriteLine();
-            Console.WriteLine($"\n{message}");
+            int numbLine = 4;
+            message.WriteTextCenter(numbLine);
+            //Console.WriteLine($"\n{message}");
             //Console.WriteLine();
 
             //Console.WriteLine("Название\t\t   Количество\t    Цена порции\t    Стоимость\t    Описание");
@@ -141,17 +107,15 @@ namespace MySushiProject.UI.Enum
                 if (cursor == i)
                 {
                     Console.BackgroundColor = ConsoleColor.Red;
-                    Console.WriteLine(MenuButton[i].ToString());
+                    MenuButton[i].ToString().WriteTextCenter(numbLine + 4 + i);
                     Console.BackgroundColor = ConsoleColor.Black;
                 }
                 else
                 {
-                    Console.WriteLine(MenuButton[i].ToString());
+                    MenuButton[i].ToString().WriteTextCenter(numbLine + 4 + i);
                 }
             }
 
-            //Console.WriteLine();
-            //Console.WriteLine($"Итоговая стоимость заказа {SushiRepository.TotalCoast(Basket)} ");
         }
     }
 }

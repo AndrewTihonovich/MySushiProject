@@ -1,29 +1,31 @@
 ﻿using MySushiProject.Extensions;
 using MySushiProject.Logger;
+using MySushiProject.UI.Enum;
 using MySushiProject.Users;
 using MySushiProject.Validation;
 using System;
 
 namespace MySushiProject.UI
 {
-    class Windows
+    class UIEnterData
     {
         const string str1 = "****************************************";
         const string str2 = "***                                  ***";
         const string str3 = "****************************************";
-        public static User StartWindow(User user, bool isValid, string errMes)
+
+        public static void PaintWindow( bool isValid, string errMes, string mes1, string mes2)
         {
-            Log.logger.Debug($"Открыто окно StartWindow");
+            //Log.logger.Debug($"Открыто окно StartWindow");
             int numdStr = 0;
             Console.Clear();
             int height = Console.WindowHeight;
             int width = Console.WindowWidth;
 
-            string mes1 = "Здравствуйте!";
+            //string mes1 = "Здравствуйте!";
             numdStr = 10;
             mes1.WriteTextCenter(numdStr);
 
-            string mes2 = "Как Вас зовут?";
+            //string mes2 = "Как Вас зовут?";
             numdStr = 12;
             mes2.WriteTextCenter(numdStr);
 
@@ -32,6 +34,7 @@ namespace MySushiProject.UI
             {
                 Console.ForegroundColor = ConsoleColor.Red;
             }
+            else {Console.ForegroundColor = ConsoleColor.White; }
 
             numdStr = 15;
             str1.WriteTextCenter(numdStr);
@@ -59,7 +62,8 @@ namespace MySushiProject.UI
 
 
 
-            user.Name = user.Name.PrintTextCenter(16);
+            //user.Name = user.Name.PrintTextCenter(16);
+
             //*********************************************
             //string enterStr = null;
             //char symb = default; 
@@ -102,10 +106,59 @@ namespace MySushiProject.UI
 
 
 
-            Console.CursorVisible = false;
+            //Console.CursorVisible = false;
 
-            return user;
+            //return user;
         }
+
+
+        public static EnumListWindows UIChekBut(EnumListWindows listMenuWindows,  out string newUser)
+        {
+            //enterStr = null;
+            newUser = default;
+            char symb = default;
+
+            do
+            {
+                symb = Console.ReadKey().KeyChar;
+
+                if (!char.IsControl(symb))
+                {
+
+
+                    newUser = newUser + symb;
+                }
+                //numdStr = 16;
+
+                if (symb.Equals('\b'))
+                {
+                    if (newUser != null)
+                    {
+                        if (newUser.Length > 0)
+                        {
+                            newUser = newUser.Remove(newUser.Length - 1);
+
+                            //numdStr = 16;
+                            "                                  ".WriteTextCenter(16);
+
+                        }
+
+                    }
+
+                }
+
+                if (symb.Equals('\u001b'))
+                {
+                    listMenuWindows--;
+                    break;
+                }
+
+                newUser.WriteTextCenter(16);
+
+            } while (!symb.Equals('\r'));
+            return listMenuWindows;
+        }
+
 
         //private static void PrintTextCenter(string mes, int numdStr)
         //{

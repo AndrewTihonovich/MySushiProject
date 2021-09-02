@@ -1,4 +1,5 @@
 ﻿using MySushiProject.BL;
+using MySushiProject.Extensions;
 using MySushiProject.Repository;
 using MySushiProject.UI.Enum;
 using MySushiProject.Users;
@@ -97,7 +98,7 @@ namespace MySushiProject.UI
                         "Для добавления/удаления в корзину используйте +/- \n" +
                         "Для подтвержения нажмите Enter\n" +
                         "Для вызова справки нажмите F1 \n" +
-                        "Для просмотра описания нажмите I\n "); ;
+                        "Для просмотра описания нажмите i\n "); ;
                     Console.WriteLine();
                     Console.WriteLine("\n\n Нажмите любую клавишу чтобы вернуться");
                     Console.ReadKey();
@@ -130,6 +131,7 @@ namespace MySushiProject.UI
         private static void WriteDataFromList(List<BasketOrder> Basket, string message, int cursor)
         {
             //Console.WriteLine();
+            //message.WriteTextCenter(2);
             Console.WriteLine($"\n{message}");
             //Console.WriteLine();
 
