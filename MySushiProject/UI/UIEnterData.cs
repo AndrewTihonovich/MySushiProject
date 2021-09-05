@@ -32,7 +32,7 @@ namespace MySushiProject.UI
             numdStr = 12;
             mes2.WriteTextCenter(numdStr);
              
-            numdStr = PaintWindowError(isValid, errMes);
+            PaintWindowError(isValid, errMes);
 
             Console.SetCursorPosition(width / 2, 16);
             Console.CursorVisible = true;
@@ -92,7 +92,7 @@ namespace MySushiProject.UI
             //return user;
         }
 
-        private static int PaintWindowError(bool isValid, string errMes)
+        private static void PaintWindowError(bool isValid, string errMes)
         {
             int width = Console.WindowWidth;
             int numdStr;
@@ -120,7 +120,6 @@ namespace MySushiProject.UI
             }
 
             
-            return numdStr;
         }
 
         public static EnumListWindows UIChekBut(EnumListWindows listMenuWindows, out string newUser)

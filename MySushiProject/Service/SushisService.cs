@@ -11,11 +11,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using Newtonsoft.Json;
+using MySushiProject.Sender;
 
 namespace MySushiProject.Service
 {
     class SushisService
     {
+
         internal static void SushiServiceStart()
         {
             Log.logger.Itfo("Запущен сервис SushiService");
@@ -198,6 +200,10 @@ namespace MySushiProject.Service
                         usersRepository.Add(newUser);
                         //////////////////////////////////newUser = new User();//
                         //Add user in repo
+                        
+                        newOrder.OrderComplited += EmailSender.OrderComplited;
+                        newOrder.OrderDelivered += EmailSender.OrderDelivered;
+                        newOrder.OrderPaid += EmailSender.OrderPaid;
                         orderRepository.Add(newOrder);
 
                         /////////////////////////////////newOrder = new Order();//
@@ -215,7 +221,8 @@ namespace MySushiProject.Service
 
 
                         "Спасибо за заказ!".WriteTextCenter(5);
-                        Console.ReadLine();
+                        "Для продолжения нажмите любую клавишу".WriteTextCenter(35);
+                        Console.Read();
                         //Event Send to Email
 
                         listMenuWindows = EnumListWindows.Start;
@@ -235,7 +242,6 @@ namespace MySushiProject.Service
                         break;
                 }
 
-                
             }
 
             //string userRep = JsonConvert.SerializeObject(newUser);

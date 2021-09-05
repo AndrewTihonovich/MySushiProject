@@ -18,6 +18,7 @@ namespace MySushiProject.UI
         //static bool isEnter = false;
         public static EnumListWindows UiMenus(List<BasketOrder> Basket, string message, EnumListWindows listMenu)    //, out int posMenu)
         {
+            Console.CursorVisible = false;
             ConsoleKey butNumber=0;
             var keyMin = ConsoleKey.Subtract;
             var keyPlus = ConsoleKey.Add;
@@ -30,11 +31,10 @@ namespace MySushiProject.UI
 
             int count = Basket.Count;
             int cursor = 0;
-            string errMes=default;
 
             while (butNumber != ConsoleKey.Enter && butNumber != ConsoleKey.Escape) //Console.ReadKey().Key != ConsoleKey.Enter
             {
-                WriteDataFromList(Basket, message, cursor, errMes);
+                WriteDataFromList(Basket, message, cursor);
 
                 butNumber = Console.ReadKey().Key;
 
@@ -77,7 +77,9 @@ namespace MySushiProject.UI
                 if (butNumber == keyInfo)
                 {
                     Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("\n\t****** Информация о продукте ******");
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine();
                     try
                     {
@@ -95,27 +97,21 @@ namespace MySushiProject.UI
                 {
                     Console.Clear();
                     Console.WriteLine();
-                    Console.WriteLine("Для передвижения вверх, вниз используйте стреки вверх, вниз\n" +
-                        "Для добавления/удаления в корзину используйте +/- \n" +
-                        "Для подтвержения нажмите Enter\n" +
-                        "Для вызова справки нажмите F1 \n" +
-                        "Для просмотра описания нажмите i\n "); ;
-                    Console.WriteLine();
-                    Console.WriteLine("\n\n Нажмите любую клавишу чтобы вернуться");
+                    Console.WriteLine("\tДля передвижения вверх, вниз используйте стреки вверх, вниз\n" +
+                        "\tДля добавления/удаления в корзину используйте +/- \n" +
+                        "\tДля подтвержения нажмите Enter\n" +
+                        "\tДля вызова справки нажмите F1 \n" +
+                        "\tДля просмотра описания нажмите i\n "); ;
+
+                    Console.WriteLine("\n\n\tНажмите любую клавишу чтобы вернуться");
                     Console.ReadKey();
                 }
 
                 if (butNumber == keyEnt)
                 {
-                    errMes = default;
-                    if (SushiRepository.TotalCoastOrder(Basket) <= 0)
-                    {
-                        errMes = "Заказ не может быть пустым";
-                    }
-                    else
+                    if (SushiRepository.TotalCoastOrder(Basket) != 0)
                     {
                         listMenu++;
-
                     }
                 }
 
@@ -161,7 +157,7 @@ namespace MySushiProject.UI
             return listMenu;
         }
 
-        private static void WriteDataFromList(List<BasketOrder> Basket, string message, int cursor, string errMes)
+        private static void WriteDataFromList(List<BasketOrder> Basket, string message, int cursor)
         {
             //Console.WriteLine();
             //message.WriteTextCenter(2);
@@ -189,9 +185,9 @@ namespace MySushiProject.UI
             Console.WriteLine($"\tИтоговая стоимость заказа \t...\t...\t...\t...\t{SushiRepository.TotalCoastOrder(Basket)} ");
             Console.ForegroundColor = ConsoleColor.White;
 
-            Console.BackgroundColor = ConsoleColor.Red;
-            errMes.WriteTextCenter(Console.GetCursorPosition().Top + 1);
-            Console.BackgroundColor = ConsoleColor.Black;
+            //Console.BackgroundColor = ConsoleColor.Red;
+            //errMes.WriteTextCenter(Console.GetCursorPosition().Top + 1);
+            //Console.BackgroundColor = ConsoleColor.Black;
 
             "Для справки нажмете F1".WriteTextCenter(Console.GetCursorPosition().Top+1);
         }
