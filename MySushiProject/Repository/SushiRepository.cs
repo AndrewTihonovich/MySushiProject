@@ -9,51 +9,46 @@ using System.Threading.Tasks;
 
 namespace MySushiProject.Repository
 {
-    class SushiRepository : IRepository<BasketOrder>
+    class SushiRepository
     {
         
         List<BasketOrder> _sushis = new List<BasketOrder>();
 
         public  SushiRepository()
         {
+            Logger.Log.logger.Debug($"Создание JSON {this.ToString()}");
             string json;
             try
             {
-                json = File.ReadAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\FileJSON.json", Encoding.UTF8);
+                json = File.ReadAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\Data\SushiRep.json", Encoding.UTF8);
                 _sushis = JsonConvert.DeserializeObject<List<BasketOrder>>(json);
+                if (_sushis == null)
+                {
+                    _sushis = new List<BasketOrder>();
+                }
+
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("Не найден файл JSON");
-                throw new FileNotFoundException();
+                //throw new FileNotFoundException();
+                Logger.Log.logger.Debug($"Не найден файл JSON  {this.ToString()}");
+
+                FileStream fs = File.Create(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\Data\SushiRep.json");
+                fs.Close();
+
+                if (_sushis == null)
+                {
+                    _sushis = new List<BasketOrder>();
+                }
+
+                Logger.Log.logger.Debug($"Создан новый файл JSON {this.ToString()}");
             }
-        
+            Logger.Log.logger.Debug($"Конец создания JSON {this.ToString()}");
         }
             
-
-        public void Add(BasketOrder item)
-        {
-            _sushis.Add(item); 
-        }
-
-        public void Delete(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
         public List<BasketOrder> GetAll()
         {
             return _sushis; 
-        }
-
-        public BasketOrder GetById(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(BasketOrder item)
-        {
-            throw new NotImplementedException();
         }
 
         public static double TotalCoastOrder(List<BasketOrder> orders)

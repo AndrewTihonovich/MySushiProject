@@ -15,21 +15,39 @@ namespace MySushiProject.Repository
 
         public UsersRepository()
         {
+            Logger.Log.logger.Debug($"Создание JSON {this.ToString()}");
             string json;
             try
             {
-                json = File.ReadAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\UserRep.txt", Encoding.UTF8);
+                json = File.ReadAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\Data\UserRep.json", Encoding.UTF8);
                 _users = JsonConvert.DeserializeObject<List<User>>(json);
+                if (_users == null)
+                {
+                    _users = new List<User>();
+                }
+
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("Не найден файл JSON");
-                throw new FileNotFoundException();
+                //throw new FileNotFoundException();
+                Logger.Log.logger.Debug($"Не найден файл JSON  {this.ToString()}");
+
+                FileStream fs = File.Create(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\Data\UserRep.json");
+                fs.Close();
+
+                if (_users == null)
+                {
+                    _users = new List<User>();
+                }
+
+                Logger.Log.logger.Debug($"Создан новый файл JSON {this.ToString()}");
             }
+            Logger.Log.logger.Debug($"Конец создания JSON {this.ToString()}");
         }
         public void Add(User item)
         {
             _users.Add(item);
+            UpdateRepo();
         }
 
         public void Delete(Guid id)
@@ -39,7 +57,7 @@ namespace MySushiProject.Repository
 
         public List<User> GetAll()
         {
-            throw new NotImplementedException();
+            return _users;
         }
 
         public User GetById(Guid id)
@@ -50,6 +68,13 @@ namespace MySushiProject.Repository
         public void Update(User item)
         {
             throw new NotImplementedException();
+        }
+
+        public void UpdateRepo()
+        {
+            string text = JsonConvert.SerializeObject(_users);
+
+            File.WriteAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\Data\UserRep.json", text);
         }
     }
 }

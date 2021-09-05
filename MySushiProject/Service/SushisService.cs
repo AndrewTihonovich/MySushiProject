@@ -12,6 +12,7 @@ using System.Linq;
 using System.IO;
 using Newtonsoft.Json;
 using MySushiProject.Sender;
+using System.Text;
 
 namespace MySushiProject.Service
 {
@@ -46,12 +47,12 @@ namespace MySushiProject.Service
 
             //listMenuWindows = EnumListWindows.EnterPhone;
 
-            bool test = true;
-
+            bool test = false;
+             
             
 
 
-            while (test)
+            while (true)
             {
                 switch (listMenuWindows)
                 {
@@ -196,6 +197,7 @@ namespace MySushiProject.Service
                         break;
 
                     case EnumListWindows.End:
+                        Console.CursorVisible = false;
 
                         usersRepository.Add(newUser);
                         //////////////////////////////////newUser = new User();//
@@ -215,14 +217,26 @@ namespace MySushiProject.Service
                         //string userRep = JsonConvert.SerializeObject(newUser);
                         //File.AppendAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\UserRep.txt", userRep);
 
-                        //string orderRep = JsonConvert.SerializeObject(newOrder);
-                        //File.AppendAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\OrderRep.txt", orderRep);
+
+                        //var text = JsonConvert.SerializeObject(newOrder, Formatting.Indented);
+                        //File.AppendAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\Orders.txt", text);
+
+
+
+
+                        
+                        //var convertedJson = JsonConvert.SerializeObject(orderRepository, Formatting.Indented);
+                        //File.AppendAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\Orders.json", convertedJson);
+
+
+
+
 
 
 
                         "Спасибо за заказ!".WriteTextCenter(5);
                         "Для продолжения нажмите любую клавишу".WriteTextCenter(35);
-                        Console.Read();
+                        Console.ReadKey();
                         //Event Send to Email
 
                         listMenuWindows = EnumListWindows.Start;
@@ -242,73 +256,27 @@ namespace MySushiProject.Service
                         break;
                 }
 
-            }
 
+                //   ****************************    TEST   ****************************
+                
+                if (test)
+                {
+                    var orders = orderRepository.GetAll();
+
+                    var order = orders[0];
+
+                    order.isCompleted = true;
+                    order.CheckCompleted(order);
+                }
+                //   ****************************    TEST   ****************************
+
+            }
             //string userRep = JsonConvert.SerializeObject(newUser);
             //File.AppendAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\UserRep.txt", userRep);
 
             //string orderRep = JsonConvert.SerializeObject(newOrder);
             //File.AppendAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\OrderRep.txt", orderRep);
 
-
-
         }
-
-        //private static void NewMethod(User newUser, CheckValidation valid, out bool isValid, out string errMesUi)
-        //{
-        //    if (valid.isValidate(newUser, newUser.Name, out errMesUi, out isValid))
-        //    {
-        //        listMenuWindows++;
-        //    }
-        //}
-
-
-
-        //private static EnumListWindows UIChekBut(EnumListWindows listMenuWindows, User newUser)
-        //{
-        //    //enterStr = null;
-        //    char symb = default;
-
-        //    do
-        //    {
-        //        symb = Console.ReadKey().KeyChar;
-
-        //        if (!char.IsControl(symb))
-        //        {
-
-
-        //            newUser.Name = newUser.Name + symb;
-        //        }
-        //        //numdStr = 16;
-
-        //        if (symb.Equals('\b'))
-        //        {
-        //            if (newUser.Name != null)
-        //            {
-        //                if (newUser.Name.Length > 0)
-        //                {
-        //                    newUser.Name = newUser.Name.Remove(newUser.Name.Length - 1);
-
-        //                    //numdStr = 16;
-        //                    StringExtensions.WriteTextCenter("                                  ", 16);
-
-        //                }
-
-        //            }
-
-        //        }
-
-        //        if (symb.Equals('\u001b'))
-        //        {
-        //            listMenuWindows--;
-        //            break;
-        //        }
-
-        //        StringExtensions.WriteTextCenter(newUser.Name, 16);
-
-        //    } while (!symb.Equals('\r'));
-        //    return listMenuWindows;
-        //}
-
     }
 }

@@ -15,21 +15,39 @@ namespace MySushiProject.Repository
 
         public OrderRepository()
         {
+            Logger.Log.logger.Debug($"Создание JSON {this.ToString()}");
             string json;
             try
             {
-                json = File.ReadAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\OrderRep.txt", Encoding.UTF8);
-                _orders = JsonConvert.DeserializeObject<List<Order>>(json);
+                json = File.ReadAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\Data\OrderRep.json", Encoding.UTF8);
+                _orders =  JsonConvert.DeserializeObject<List<Order>>(json);
+                if (_orders == null)
+                {
+                    _orders = new List<Order>();
+                }
+
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("Не найден файл JSON");
-                throw new FileNotFoundException();
+                //throw new FileNotFoundException();
+                Logger.Log.logger.Debug($"Не найден файл JSON  {this.ToString()}");
+
+                FileStream fs = File.Create(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\Data\OrderRep.json");
+                fs.Close();
+
+                if (_orders == null)
+                {
+                    _orders = new List<Order>();
+                }
+
+                Logger.Log.logger.Debug($"Создан новый файл JSON {this.ToString()}");
             }
+            Logger.Log.logger.Debug($"Конец создания JSON {this.ToString()}") ;
         }
         public void Add(Order item)
         {
             _orders.Add(item);
+            UpdateRepo();
         }
 
         public void Delete(Guid id)
@@ -39,7 +57,7 @@ namespace MySushiProject.Repository
 
         public List<Order> GetAll()
         {
-            throw new NotImplementedException();
+            return _orders;
         }
 
         public Order GetById(Guid id)
@@ -50,6 +68,13 @@ namespace MySushiProject.Repository
         public void Update(Order item)
         {
             throw new NotImplementedException();
+        }
+
+        public void UpdateRepo()
+        {
+              string text = JsonConvert.SerializeObject(_orders);
+
+              File.WriteAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\Data\OrderRep.json", text);
         }
     }
 }

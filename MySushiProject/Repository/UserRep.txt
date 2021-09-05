@@ -1,1 +1,0 @@
-[{"Id":"e39d24df-52c1-4bb4-9c56-958363180693","Name":"Tom","Phone":"+354621965548","Email":"Tom@gmail.com","Address":"Leskovska str 26"},{"Id":"edc7ba31-89b1-4bd5-8982-cdba85e0b233","Name":"Михаил","Phone":"+365261115462","Email":"Miha65@gmail.com","Address":"пр.Пушкина 132 кв 54"}]
