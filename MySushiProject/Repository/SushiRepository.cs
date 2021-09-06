@@ -3,15 +3,12 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MySushiProject.Repository
 {
     class SushiRepository
     {
-        
         List<BasketOrder> _sushis = new List<BasketOrder>();
 
         public  SushiRepository()
@@ -30,7 +27,6 @@ namespace MySushiProject.Repository
             }
             catch (FileNotFoundException)
             {
-                //throw new FileNotFoundException();
                 Logger.Log.logger.Debug($"Не найден файл JSON  {this.ToString()}");
 
                 FileStream fs = File.Create(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\Data\SushiRep.json");

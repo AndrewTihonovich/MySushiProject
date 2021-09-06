@@ -1,17 +1,10 @@
 ﻿using MySushiProject.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MySushiProject.Sender
 {
     abstract class EmailSender
     {
         
-        //RepoOrder RepoOrder = new RepoOrder();
-
         public static void OrderComplited(Order order)
         {
             //send Email

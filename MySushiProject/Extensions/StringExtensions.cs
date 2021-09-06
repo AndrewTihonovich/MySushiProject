@@ -1,9 +1,4 @@
-﻿using MySushiProject.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace MySushiProject.Extensions
 {
@@ -29,66 +24,5 @@ namespace MySushiProject.Extensions
             else 
             { Console.SetCursorPosition(left, numdLine); }
         }
-
-
-
-        public static string PrintTextCenter(this string enterStr, int numdLine)
-        {
-            enterStr = null;
-            char symb = default;
-
-            do
-            {
-                symb = Console.ReadKey().KeyChar;
-
-                if (!char.IsControl(symb))
-                {
-                    
-                    //if (symb.Equals('\b'))
-                    //{
-                    //    if (enterStr != null)
-                    //    {
-                    //        if (enterStr.Length > 0)
-                    //        {
-                    //            enterStr = enterStr.Remove(enterStr.Length - 1);
-
-                    //            //numdStr = 16;
-                    //            WriteTextCenter("                                  ", numdLine);
-
-                    //        }
-
-                    //    }
-
-                    //}
-                    //else
-                     enterStr = enterStr + symb; 
-                }
-                //numdStr = 16;
-
-                if (symb.Equals('\b'))
-                {
-                    if (enterStr != null)
-                    {
-                        if (enterStr.Length > 0)
-                        {
-                            enterStr = enterStr.Remove(enterStr.Length - 1);
-
-                            //numdStr = 16;
-                            WriteTextCenter("                                  ", numdLine);
-
-                        }
-
-                    }
-
-                }
-
-
-                    WriteTextCenter(enterStr, numdLine);
-
-            } while (!symb.Equals('\r'));
-            //listMenuWindows++;
-            return enterStr;
-        }
-
      }
 }

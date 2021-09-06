@@ -1,11 +1,7 @@
 ﻿using MySushiProject.Logger;
 using MySushiProject.Users;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MySushiProject.Validation
 {
@@ -14,16 +10,7 @@ namespace MySushiProject.Validation
         internal string CheckObject(object obj)
         {
             string errorMessage = null;
-            //bool check = true;
-
-            //if (string.IsNullOrWhiteSpace(obj as string))
-            //{
-            //    errorMessage = "Поле не может быть пустым";
-            //    check = false;
-            //}
-
-            //if (check)
-            //{
+            
                 var results = new List<ValidationResult>();
                 var context = new ValidationContext(obj);
 
@@ -33,16 +20,12 @@ namespace MySushiProject.Validation
                     {
                         errorMessage = error.ErrorMessage;
                     }
-                    //errorMessage = results.FirstOrDefault().ToString();
                 }
-            //}
             return errorMessage;
         }
 
-
         internal bool isValidate(User user, string propStr, out string errMesUi, out bool isValid)
         {
-            
             if (string.IsNullOrWhiteSpace(propStr))
             {
                 errMesUi = "Поле не может быть пустым";
@@ -60,17 +43,5 @@ namespace MySushiProject.Validation
             errMesUi = null;
             return true;
         }
-
-        //internal bool gfgfd(User newUser, out bool isValid, out string errMesUi)
-        //{ 
-        //if (this.isValidate(newUser, newUser.Name, out errMesUi))
-        //    {
-        //        isValid = true;
-        //        //listMenuWindows++;
-        //        errMesUi = null;
-        //    }
-        //    else { isValid = false; }
-        //}
-
     }
 }

@@ -2,20 +2,14 @@
 using MySushiProject.Extensions;
 using MySushiProject.Repository;
 using MySushiProject.UI.Enum;
-using MySushiProject.Users;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MySushiProject.UI
 {
     class UIMenu
     {
 
-
-        //static bool isEnter = false;
         public static EnumListWindows UiMenus(List<BasketOrder> Basket, string message, EnumListWindows listMenu)    //, out int posMenu)
         {
             Console.CursorVisible = false;
@@ -32,7 +26,7 @@ namespace MySushiProject.UI
             int count = Basket.Count;
             int cursor = 0;
 
-            while (butNumber != ConsoleKey.Enter && butNumber != ConsoleKey.Escape) //Console.ReadKey().Key != ConsoleKey.Enter
+            while (butNumber != ConsoleKey.Enter && butNumber != ConsoleKey.Escape) 
             {
                 WriteDataFromList(Basket, message, cursor);
 
@@ -56,7 +50,7 @@ namespace MySushiProject.UI
                     }
                 }
 
-                if (butNumber == keyPlus)////
+                if (butNumber == keyPlus)
                 {
                     Basket[cursor].AmountInOrder++;
                     if (Basket[cursor].AmountInOrder > 10)
@@ -98,10 +92,10 @@ namespace MySushiProject.UI
                     Console.Clear();
                     Console.WriteLine();
                     Console.WriteLine("\tДля передвижения вверх, вниз используйте стреки вверх, вниз\n" +
-                        "\tДля добавления/удаления в корзину используйте +/- \n" +
-                        "\tДля подтвержения нажмите Enter\n" +
-                        "\tДля вызова справки нажмите F1 \n" +
-                        "\tДля просмотра описания нажмите i\n "); ;
+                                      "\tДля добавления/удаления в корзину используйте +/- \n" +
+                                      "\tДля подтвержения нажмите Enter\n" +
+                                      "\tДля вызова справки нажмите F1 \n" +
+                                      "\tДля просмотра описания нажмите i\n "); ;
 
                     Console.WriteLine("\n\n\tНажмите любую клавишу чтобы вернуться");
                     Console.ReadKey();
@@ -120,38 +114,9 @@ namespace MySushiProject.UI
                     listMenu--;
                 }
 
-
-
-
-
-
-
-
                 Console.Clear();
-
             }
 
-            //posMenu = cursor;
-
-            //if (butNumber== keyEnt)
-            //{
-            //    errMes = default;
-            //    if (SushiRepository.TotalCoastOrder(Basket)<=0)
-            //    {
-            //        errMes = "Заказ не может быть пустым";
-            //    }
-            //     else
-            //      {
-            //        listMenu++;
-                    
-            //      }
-            //}
-
-            //if (butNumber == keyEsc)
-            //{
-            //    listMenu--;
-            //}
-            
             butNumber = 0;
 
             return listMenu;
@@ -159,13 +124,8 @@ namespace MySushiProject.UI
 
         private static void WriteDataFromList(List<BasketOrder> Basket, string message, int cursor)
         {
-            //Console.WriteLine();
-            //message.WriteTextCenter(2);
             Console.WriteLine($"\n{message}");
-            //Console.WriteLine();
-
-            //Console.WriteLine("Название\t\t   Количество\t    Цена порции\t    Стоимость\t    Описание");
-
+            
             for (int i = 0; i < Basket.Count; i++)
             {
                 if (cursor == i)
@@ -184,10 +144,6 @@ namespace MySushiProject.UI
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"\tИтоговая стоимость заказа \t...\t...\t...\t...\t{SushiRepository.TotalCoastOrder(Basket)} ");
             Console.ForegroundColor = ConsoleColor.White;
-
-            //Console.BackgroundColor = ConsoleColor.Red;
-            //errMes.WriteTextCenter(Console.GetCursorPosition().Top + 1);
-            //Console.BackgroundColor = ConsoleColor.Black;
 
             "Для справки нажмете F1".WriteTextCenter(Console.GetCursorPosition().Top+1);
         }

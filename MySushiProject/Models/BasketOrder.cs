@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MySushiProject.Models
 {
@@ -11,13 +7,11 @@ namespace MySushiProject.Models
         public BasketOrder(int id, string name, double coast, string description) : base ( id, name, coast, description)
         {
             AmountInOrder = 0;
-            //CoastUnit = AmountInOrder * Coast;
         }
 
         public int AmountInOrder { get; set; }
         public double CoastUnit { get; set; }
         
-
         public override string ToString()
         {
             if (this.Name.Length > 15)
@@ -29,7 +23,5 @@ namespace MySushiProject.Models
                 return $"\t{Name}\t\t\t{AmountInOrder}\t\t{Coast}\t\t{CoastUnit = Math.Round(AmountInOrder * Coast, 2)}\t        i";
               }
         }
-
-      
     }
 }

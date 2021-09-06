@@ -1,9 +1,6 @@
 ﻿using MySushiProject.Users;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MySushiProject.Models
 {
@@ -21,7 +18,6 @@ namespace MySushiProject.Models
         public bool isCompleted { get; set; } = false;
         public bool isDelivered { get; set; } = false;
         public bool isPaid { get; set; } = false;
-
 
         public void CheckCompleted(Order order)
         {
@@ -47,12 +43,10 @@ namespace MySushiProject.Models
             }
         }
 
-
         public override string ToString()
         {
             return $"{User} \n Заказ:\n {BasketOrders}\n Общая стоимость заказа {TotalCoast}";
         }
-
 
         public void Dispose()
         {
