@@ -19,12 +19,14 @@ namespace MySushiProject.UI
             int height = Console.WindowHeight;
             int width = Console.WindowWidth;
 
+            Console.ForegroundColor = ConsoleColor.White;
             numdStr = 10;
             mes1.WriteTextCenter(numdStr);
 
             numdStr = 12;
             mes2.WriteTextCenter(numdStr);
-             
+            Console.ForegroundColor = ConsoleColor.White;
+
             PaintWindowError(isValid, errMes);
 
             Console.SetCursorPosition(width / 2, 16);

@@ -29,13 +29,14 @@ namespace MySushiProject.Validation
             if (string.IsNullOrWhiteSpace(propStr))
             {
                 errMesUi = "Поле не может быть пустым";
+                Log.logger.Error($"{errMesUi}");
             }
             else
             { errMesUi = this.CheckObject(user); }
 
             if (errMesUi != null)
             {
-                Log.logger.Itfo($"Не корректный ввод: \n\t\t{errMesUi}");
+                Log.logger.Error($"Не корректный ввод: {errMesUi}");
                 isValid = false;
                 return  false;
             }

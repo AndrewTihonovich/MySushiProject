@@ -1,4 +1,5 @@
-﻿using MySushiProject.Models;
+﻿using MySushiProject.Logger;
+using MySushiProject.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace MySushiProject.Repository
 
         public  SushiRepository()
         {
-            Logger.Log.logger.Debug($"Создание JSON {this.ToString()}");
+            Log.logger.Debug($"Создание SushiRepository из файла JSON");
             string json;
             try
             {
@@ -27,7 +28,7 @@ namespace MySushiProject.Repository
             }
             catch (FileNotFoundException)
             {
-                Logger.Log.logger.Debug($"Не найден файл JSON  {this.ToString()}");
+                Log.logger.Error($"Не найден файл SushiRep.JSON");
 
                 FileStream fs = File.Create(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\Data\SushiRep.json");
                 fs.Close();
@@ -37,9 +38,9 @@ namespace MySushiProject.Repository
                     _sushis = new List<BasketOrder>();
                 }
 
-                Logger.Log.logger.Debug($"Создан новый файл JSON {this.ToString()}");
+                Log.logger.Debug($"Создан новый файл SushiRep.JSON");
             }
-            Logger.Log.logger.Debug($"Конец создания JSON {this.ToString()}");
+            Log.logger.Debug($"Конец создания SushiRepository");
         }
             
         public List<BasketOrder> GetAll()

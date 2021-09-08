@@ -1,4 +1,5 @@
 ﻿using MySushiProject.Users;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -10,14 +11,35 @@ namespace MySushiProject.Models
         public event Action<Order> OrderDelivered;
         public event Action<Order> OrderPaid;
 
-        public Guid Id { get; } = Guid.NewGuid();
+        public Guid Id { get; set; }// = Guid.NewGuid();
         public List<BasketOrder> BasketOrders { get; set; }
         public User User { get; set; }
         public double TotalCoast { get; set; }
         public DateTime Date { get; set; }
-        public bool isCompleted { get; set; } = false;
-        public bool isDelivered { get; set; } = false;
-        public bool isPaid { get; set; } = false;
+        public bool isCompleted { get; set; }// = false;
+        public bool isDelivered { get; set; }// = false;
+        public bool isPaid { get; set; }// = false;
+
+        public Order(Guid id, List<BasketOrder> basketOrders, User user, double totalCoast, DateTime date)
+        {
+            Id = id;
+            BasketOrders = basketOrders;
+            User = user;
+            TotalCoast = totalCoast;
+            Date = date;
+        }
+
+        public Order(Guid id)
+        {
+            Id = id;
+        }
+
+        public Order()
+        {
+
+        }
+
+        
 
         public void CheckCompleted(Order order)
         {
@@ -50,20 +72,20 @@ namespace MySushiProject.Models
 
         public void Dispose()
         {
-            if (this.isCompleted == true)
-            {
+            //if (this.isCompleted == true)
+            //{
                 this.OrderComplited -= OrderComplited;
-            }
+            //}
 
-            if (this.isDelivered == true)
-            {
+            //if (this.isDelivered == true)
+            //{
                 this.OrderDelivered -= OrderDelivered;
-            }
+            //}
 
-            if (this.isPaid == true)
-            {
+            //if (this.isPaid == true)
+            //{
                 this.OrderPaid -= OrderPaid;
-            }
+            //}
         }
     }
 }

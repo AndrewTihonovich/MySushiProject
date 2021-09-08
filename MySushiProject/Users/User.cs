@@ -5,7 +5,7 @@ namespace MySushiProject.Users
 {
     class User
     {
-        public Guid Id { get;} = Guid.NewGuid();
+        public Guid Id { get;} 
 
         public string Name { get; set; }
 
@@ -17,5 +17,9 @@ namespace MySushiProject.Users
 
         public string Address { get; set; }
 
+        public User(Guid id)
+        {
+            Id = id;
+        }
     }
 }

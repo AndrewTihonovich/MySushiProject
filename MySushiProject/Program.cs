@@ -2,8 +2,6 @@
 using MySushiProject.Logger.Enum;
 using MySushiProject.Service;
 using System;
-using System.Net;
-using System.Net.Mail;
 
 namespace MySushiProject
 {
@@ -20,11 +18,20 @@ namespace MySushiProject
             Console.SetWindowSize(100, 40);
             Log.logger.Debug("Изменен размер консольного окна");
 
+
+            // TEST
+            // EmailSender.SendEmail();
+            // TEST
+
+
+
             //    ******************   StartSushiService   ******************
             SushisService.SushiServiceStart();
             //    ******************   StartSushiService   ******************
 
         }
+
+        
     }
 }
 

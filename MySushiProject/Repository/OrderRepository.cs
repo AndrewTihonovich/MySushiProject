@@ -1,4 +1,5 @@
-﻿using MySushiProject.Models;
+﻿using MySushiProject.Logger;
+using MySushiProject.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,22 +14,21 @@ namespace MySushiProject.Repository
 
         public OrderRepository()
         {
-            Logger.Log.logger.Debug($"Создание JSON {this.ToString()}");
+            Log.logger.Debug($"Создание OrderRepository из файла JSON");
             string json;
             try
             {
                 json = File.ReadAllText(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\Data\OrderRep.json", Encoding.UTF8);
-                _orders =  JsonConvert.DeserializeObject<List<Order>>(json);
+                _orders = JsonConvert.DeserializeObject<List<Order>>(json);
                 if (_orders == null)
                 {
                     _orders = new List<Order>();
                 }
-
             }
             catch (FileNotFoundException)
             {
                 //throw new FileNotFoundException();
-                Logger.Log.logger.Debug($"Не найден файл JSON  {this.ToString()}");
+                Log.logger.Error($"Не найден файл OrderRep.JSON");
 
                 FileStream fs = File.Create(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\Data\OrderRep.json");
                 fs.Close();
@@ -38,9 +38,9 @@ namespace MySushiProject.Repository
                     _orders = new List<Order>();
                 }
 
-                Logger.Log.logger.Debug($"Создан новый файл JSON {this.ToString()}");
+                Log.logger.Debug($"Создан новый файл OrderRep.JSON");
             }
-            Logger.Log.logger.Debug($"Конец создания JSON {this.ToString()}") ;
+            Log.logger.Debug($"Конец создания OrderRepository") ;
         }
         public void Add(Order item)
         {

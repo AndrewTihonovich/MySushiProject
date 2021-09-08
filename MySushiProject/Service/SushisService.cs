@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MySushiProject.Sender;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace MySushiProject.Service
 {
@@ -18,18 +20,23 @@ namespace MySushiProject.Service
 
         internal static void SushiServiceStart()
         {
-            Log.logger.Itfo("Запущен сервис SushiService");
-            string message;
+            Log.logger.Info("Запущен сервис SushiService");
             EnumListWindows listMenuWindows = 0;
+
             SushiRepository sushiRepository = new SushiRepository();
-            Log.logger.Itfo("Create sushiRepository");
+            Log.logger.Info("Создан SushiRepository");
+
             UsersRepository usersRepository = new UsersRepository();
-            Log.logger.Itfo("Create usersRepository");
+            Log.logger.Info("Создан UsersRepository");
+
             OrderRepository orderRepository = new OrderRepository();
-            Log.logger.Itfo("Create orderRepository");
-            User newUser = new User();
-            Order newOrder = new Order();
+            Log.logger.Info("Создан OrderRepository");
+
+            User newUser = new User(Guid.NewGuid());
+            
             List<BasketOrder> Basket = new List<BasketOrder>();
+            Order newOrder = new Order(Guid.NewGuid());
+            
             CheckValidation valid = new CheckValidation();
 
             bool isValid = true;
@@ -45,7 +52,7 @@ namespace MySushiProject.Service
                 switch (listMenuWindows)
                 {
                     case EnumListWindows.Start:
-                        newUser = new User();
+                        newUser = new User(Guid.NewGuid());
                         Console.Clear();
 
                         mes1 = $"Здравствуйте!";
@@ -77,13 +84,13 @@ namespace MySushiProject.Service
                     case EnumListWindows.MenuToday:
                         Console.Clear();
                         Console.CursorVisible = false;
-                        message = $"\t{newUser.Name}, Вы можете сделать заказ из меню на сегодня:" +
-                                  $"\n\n" +
-                                  $"\tНазвание\t\t   Количество\t    Цена порции\t    Стоимость\t    Описание\n";
+                        mes1 = $"{newUser.Name}, Вы можете сделать заказ из меню на сегодня:";
+                        //$"\tНазвание\t\t   Количество\t    Цена порции\t    Стоимость\t    Описание\n";
+                        mes2 = "";
                        
-                        Basket = new SushiRepository().GetAll();
-                       
-                        listMenuWindows = UIMenu.UiMenus(Basket, message, listMenuWindows);
+                        Basket = new SushiRepository().GetAll();  //sushiRepository.GetAll();
+
+                        listMenuWindows = UIMenu.UiMenus(Basket, mes1, mes2, listMenuWindows);
 
                         break;
 
@@ -147,20 +154,20 @@ namespace MySushiProject.Service
                     case EnumListWindows.CheckOrder:
                         Console.Clear();
 
-                        newOrder = new Order();
+                        newOrder = new Order(Guid.NewGuid());
                         
                         newOrder.BasketOrders = Basket.Where(x => x.AmountInOrder != 0).ToList();
 
-                        message = $"\t {newUser.Name}, проверте Ваш заказ. Все верно?" +
-                                  $"\n\n" +
-                                  $"\tЗаказчик: {newUser.Name}\n" +
-                                  $"\tEmail: {newUser.Email}\n" +
-                                  $"\tТелефон: {newUser.Phone}\n" +
-                                  $"\tАдрес доставки: {newUser.Address}" +
-                                  $"\n\n" +
-                                  $"\tНазвание\t\t   Количество\t    Цена порции\t    Стоимость\t\n";
+                        mes1 = $"{newUser.Name}, проверте Ваш заказ. Все верно?";
+                                  
+                                  //$"\tНазвание\t\t   Количество\t    Цена порции\t    Стоимость\t\n";
+                        mes2 =  $"\tЗаказчик: {newUser.Name}\n" +
+                                $"\tEmail: {newUser.Email}\n" +
+                                $"\tТелефон: {newUser.Phone}\n" +
+                                $"\tАдрес доставки: {newUser.Address}" +
+                                $"\n";
 
-                        listMenuWindows = UI.UIMenu.UiMenus(newOrder.BasketOrders, message, listMenuWindows);
+                        listMenuWindows = UI.UIMenu.UiMenus(newOrder.BasketOrders, mes1, mes2, listMenuWindows);
 
                         break;
 
@@ -168,6 +175,7 @@ namespace MySushiProject.Service
                         Console.CursorVisible = false;
 
                         usersRepository.Add(newUser);
+                        Log.logger.Info("Новый пользователь добавлен в UserRepository");
 
                         newOrder.User = newUser;
                         newOrder.BasketOrders = newOrder.BasketOrders.Where(x => x.AmountInOrder != 0).ToList();
@@ -177,6 +185,7 @@ namespace MySushiProject.Service
                         newOrder.OrderDelivered += EmailSender.OrderDelivered;
                         newOrder.OrderPaid += EmailSender.OrderPaid;
                         orderRepository.Add(newOrder);
+                        Log.logger.Info("Новый заказ добавлен в OrderRepository");
 
                         "Спасибо за заказ!".WriteTextCenter(5);
                         "Для продолжения нажмите любую клавишу".WriteTextCenter(35);
@@ -201,19 +210,32 @@ namespace MySushiProject.Service
                 }
 
 
-                //   ****************************    TEST   ****************************
+                //   ****************************    TEST Events   ****************************
                 
+                    
                 if (test)
-                {
-                    var orders = orderRepository.GetAll();
+                    {
+                        var orders = orderRepository.GetAll();
 
-                    var order = orders[0];
+                        var order = orders[5];
 
-                    order.isCompleted = true;
-                    order.CheckCompleted(order);
-                }
-                //   ****************************    TEST   ****************************
+                        order.isCompleted = true;
+                        order.isDelivered = true;
+                        order.isPaid = true;
 
+                        order.CheckCompleted(order);
+
+                        Thread.Sleep(5_000);
+                        order.CheckDelivered(order);
+
+                        Thread.Sleep(5_000);
+                        order.CheckPaid(order);
+
+
+                        test = false;
+                    }
+                
+                //   ****************************    TEST Events  ****************************
             }
         }
     }

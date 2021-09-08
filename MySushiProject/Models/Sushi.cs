@@ -20,24 +20,5 @@ namespace MySushiProject.Models
             Coast = coast;
             Description = description;
         }
-
-        public List<BasketOrder> SushiListJSON()
-        {
-            List<BasketOrder> sushis = new List<BasketOrder>();
-            
-            string json;
-            try
-            {
-                json = File.ReadAllText(@"c:\temp\FileJSON.json", Encoding.UTF8);
-                sushis = JsonConvert.DeserializeObject<List<BasketOrder>>(json);
-            }
-            catch (FileNotFoundException)
-            {
-                Console.WriteLine("Не найден файл JSON");
-                throw new FileNotFoundException();
-            }
-            
-            return sushis;
-        }
     }
 }

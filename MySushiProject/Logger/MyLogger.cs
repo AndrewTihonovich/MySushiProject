@@ -1,11 +1,23 @@
 ﻿using MySushiProject.Logger.Enum;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace MySushiProject.Logger
 {
+    static class Log
+    {
+        public static MyLogger logger;
+        public static void CreateLogger()
+        {
+            logger = new MyLogger();
+            //return logger;
+        }
+    }
+
     class MyLogger
     {
         string _path;  //= @"C:\Users\Andre\source\repos\MyLogger\MyLogger\Logs\";
@@ -26,7 +38,7 @@ namespace MySushiProject.Logger
             Logging(message);
         }
 
-        public void Itfo(string message)
+        public void Info(string message)
         {
             _logTag = "INF";
             Logging(message);
@@ -112,9 +124,14 @@ namespace MySushiProject.Logger
 
         private void WriteInLogFile(string message, int count, string nameFileToday)
         {
+            StackTrace st = new StackTrace();
+            var method = st.GetFrame(3).GetMethod().Name;
+            var namesp = st.GetFrame(3).GetMethod().ReflectedType.Namespace;
+
             using (FileStream fstream = new FileStream($"{_path}" + $"log {nameFileToday}_[{count}].txt", FileMode.Append))
             {
-                string text = $"{DateTime.Now} [{_logTag}] {message}\n";
+                string text = $"{DateTime.Now} [{_logTag}] : {namesp}  ***method***  {method}" +
+                              $"\n\t\t\t\t\t\t\t\t{message}\n";
                 byte[] array = Encoding.Default.GetBytes(text);
                 fstream.Write(array, 0, array.Length);
                 fstream.Close();
@@ -146,14 +163,6 @@ namespace MySushiProject.Logger
         }
     }
 
-    static class Log
-    {
-        public static MyLogger logger;
-        public static MyLogger CreateLogger()
-        {
-            logger = new MyLogger();
-            return logger;
-        }
-    }
+    
 }
 
