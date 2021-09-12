@@ -29,7 +29,6 @@ namespace MySushiProject.Validation
             if (string.IsNullOrWhiteSpace(propStr))
             {
                 errMesUi = "Поле не может быть пустым";
-                Log.logger.Error($"{errMesUi}");
             }
             else
             { errMesUi = this.CheckObject(user); }

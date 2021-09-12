@@ -14,73 +14,59 @@ namespace MySushiProject.Sender
         {
             string status = "скомплектован";
 
-            //send Email
             SendEmailAsync(order, status).GetAwaiter();
             
-            Log.logger.Info($"Email OrderComplited {order.User} is Send");
+            Log.logger.Info($"Письмо \"Заказ {status}\" отправленно пользователю");
 
-            //order.Dispose();
+            order.Dispose();
         }
 
         public static void OrderDelivered(Order order)
         {
             string status = "доставлен курьером";
 
-            //send Email
             SendEmailAsync(order, status).GetAwaiter();
 
-            Log.logger.Info($"Email OrderDelivered {order.User} is Send");
+            Log.logger.Info($"Письмо \"Заказ {status}\" отправленно пользователю");
 
-            //order.Dispose();
+            order.Dispose();
         }
 
         public static void OrderPaid(Order order)
         {
             string status = "оплачен";
 
-            //send Email
             SendEmailAsync(order, status).GetAwaiter();
 
-            Log.logger.Info($"Email OrderPaid {order.User} is Send");
+            Log.logger.Info($"Письмо \"Заказ {status}\" отправленно пользователю");
 
             order.Dispose();
         }
 
-        //public static void SendEmail(Order order, string status)
-        //{
-        //    MailAddress from = new MailAddress("SushiService2021@google.com", "SushiService");
-        //    MailAddress to = new MailAddress("AndrewT_87@tut.by"); //order.User.Email
-        //    MailMessage mail = new MailMessage(from, to);
-        //    mail.Subject = $"Заказ № {order.Id}";
-        //    mail.Body = $"{order.User.Name}, Ваш заказ {status}";
-        //    mail.IsBodyHtml = false;
-
-        //    SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-        //    smtp.Credentials = new NetworkCredential("SushiService2021", "MySushi2021");
-        //    smtp.EnableSsl = true;
-        //    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-        //    smtp.Send(mail);
-
-        //}
-
         private static async Task SendEmailAsync(Order order, string status)
         {
             MailAddress from = new MailAddress("SushiService2021@google.com", "SushiService");
-            MailAddress to = new MailAddress("AndrewT_87@tut.by"); //order.User.Email
+            MailAddress to = new MailAddress($"{order.User.Email}"); //order.User.Email   AndrewT_87@tut.by
             MailMessage mail = new MailMessage(from, to);
             mail.Subject = $"Заказ № {order.Id}";
-            mail.Body = $"{order.User.Name}, Ваш заказ {status}";
+            mail.Body = $"{order.User.Name}, Ваш заказ:\n" +
+                        $"{order.BasketOrdersToString()}" +
+                        $"Общая стоимость: {order.TotalCoast} бел.руб.\n" +
+                        $"\nСтатус заказа:  {status}";
             mail.IsBodyHtml = false;
 
             SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
             smtp.Credentials = new NetworkCredential("SushiService2021", "MySushi2021");
             smtp.EnableSsl = true;
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            await smtp.SendMailAsync(mail);
+            try
+            {
+                await smtp.SendMailAsync(mail);
+            }
+            catch (Exception ex)
+            {
+                Log.logger.Error($"Ошибка при отправки почты: {ex.Message}");
+            }
         }
-
-
-
     }
-
 }

@@ -75,8 +75,6 @@ namespace MySushiProject.UI
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine();
 
-
-
                     var descripLine = Basket[cursor].Description.Split('\n');
 
                     for (int i = 0; i < descripLine.Length; i++)
@@ -84,8 +82,6 @@ namespace MySushiProject.UI
                         Console.WriteLine($"\t{descripLine[i]}");
                     }
                        
-
-                    
                     "Нажмите любую клавишу чтобы вернуться".WriteTextCenter(Console.GetCursorPosition().Top+1);
                     Console.ReadKey();
                 }
@@ -93,14 +89,14 @@ namespace MySushiProject.UI
                 if (butNumber == keyF1)////
                 {
                     Console.Clear();
-                    Console.WriteLine();
+                    Console.SetCursorPosition(0, 3);
                     Console.WriteLine("\tДля передвижения вверх, вниз используйте стреки вверх, вниз\n" +
                                       "\tДля добавления/удаления в корзину используйте +/- \n" +
                                       "\tДля подтвержения нажмите Enter\n" +
                                       "\tДля вызова справки нажмите F1 \n" +
                                       "\tДля просмотра описания нажмите i\n "); ;
 
-                    Console.WriteLine("\n\n\tНажмите любую клавишу чтобы вернуться");
+                    "Нажмите любую клавишу чтобы вернуться".WriteTextCenter(Console.GetCursorPosition().Top + 2);
                     Console.ReadKey();
                 }
 
@@ -131,7 +127,7 @@ namespace MySushiProject.UI
             $"{mes1}".WriteTextCenter(1);
             Console.ForegroundColor = ConsoleColor.White;
 
-            Console.WriteLine($"\n{mes2}");
+            Console.WriteLine($"\n\n{mes2}");
 
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("\tНазвание\t\t   Количество\t    Цена порции\t    Стоимость\t    Описание\n");

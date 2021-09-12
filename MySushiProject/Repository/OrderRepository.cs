@@ -1,5 +1,6 @@
 ﻿using MySushiProject.Logger;
 using MySushiProject.Models;
+using MySushiProject.Sender;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -24,10 +25,27 @@ namespace MySushiProject.Repository
                 {
                     _orders = new List<Order>();
                 }
+
+                for (int i = 0; i < _orders.Count; i++)
+                {
+                    if (_orders[i].isCompleted == false)
+                    {
+                        _orders[i].OrderComplited += EmailSender.OrderComplited;
+                    }
+
+                    if (_orders[i].isDelivered == false)
+                    {
+                        _orders[i].OrderDelivered += EmailSender.OrderDelivered;
+                    }
+
+                    if (_orders[i].isPaid == false)
+                    {
+                        _orders[i].OrderPaid += EmailSender.OrderPaid;
+                    }
+                }
             }
             catch (FileNotFoundException)
             {
-                //throw new FileNotFoundException();
                 Log.logger.Error($"Не найден файл OrderRep.JSON");
 
                 FileStream fs = File.Create(@"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Repository\Data\OrderRep.json");

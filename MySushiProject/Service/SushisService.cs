@@ -17,7 +17,6 @@ namespace MySushiProject.Service
 {
     class SushisService
     {
-
         internal static void SushiServiceStart()
         {
             Log.logger.Info("Запущен сервис SushiService");
@@ -52,6 +51,7 @@ namespace MySushiProject.Service
                 switch (listMenuWindows)
                 {
                     case EnumListWindows.Start:
+                        Log.logger.Debug("Выбрано окно ввода имени");
                         newUser = new User(Guid.NewGuid());
                         Console.Clear();
 
@@ -72,6 +72,7 @@ namespace MySushiProject.Service
                         break;
 
                     case EnumListWindows.OrderOrMenu:
+                        Log.logger.Debug("Выбрано окно запроса меню");
                         Console.Clear();
                         Console.CursorVisible = false;
 
@@ -82,10 +83,11 @@ namespace MySushiProject.Service
                         break;
 
                     case EnumListWindows.MenuToday:
+                        Log.logger.Debug("Выбрано окно вывода меню");
                         Console.Clear();
                         Console.CursorVisible = false;
+
                         mes1 = $"{newUser.Name}, Вы можете сделать заказ из меню на сегодня:";
-                        //$"\tНазвание\t\t   Количество\t    Цена порции\t    Стоимость\t    Описание\n";
                         mes2 = "";
                        
                         Basket = new SushiRepository().GetAll();  //sushiRepository.GetAll();
@@ -95,6 +97,7 @@ namespace MySushiProject.Service
                         break;
 
                     case EnumListWindows.EnterPhone:
+                        Log.logger.Debug("Выбрано окно ввода телефона");
                         Console.Clear();
                         Console.CursorVisible = true;
 
@@ -115,6 +118,7 @@ namespace MySushiProject.Service
                         break;
 
                     case EnumListWindows.EnterEmail:
+                        Log.logger.Debug("Выбрано окно ввода Email");
                         Console.Clear();
                         Console.CursorVisible = true;
 
@@ -134,6 +138,7 @@ namespace MySushiProject.Service
                         break;
 
                     case EnumListWindows.EnterAddress:
+                        Log.logger.Debug("Выбрано окно ввода адреса");
                         Console.Clear();
                         Console.CursorVisible = true;
 
@@ -152,6 +157,7 @@ namespace MySushiProject.Service
                         break;
                         
                     case EnumListWindows.CheckOrder:
+                        Log.logger.Debug("Выбрано окно проверки заказа");
                         Console.Clear();
 
                         newOrder = new Order(Guid.NewGuid());
@@ -160,7 +166,6 @@ namespace MySushiProject.Service
 
                         mes1 = $"{newUser.Name}, проверте Ваш заказ. Все верно?";
                                   
-                                  //$"\tНазвание\t\t   Количество\t    Цена порции\t    Стоимость\t\n";
                         mes2 =  $"\tЗаказчик: {newUser.Name}\n" +
                                 $"\tEmail: {newUser.Email}\n" +
                                 $"\tТелефон: {newUser.Phone}\n" +
@@ -172,6 +177,7 @@ namespace MySushiProject.Service
                         break;
 
                     case EnumListWindows.End:
+                        Log.logger.Debug("Выбрано окно завершения заказа");
                         Console.CursorVisible = false;
 
                         usersRepository.Add(newUser);
@@ -187,7 +193,7 @@ namespace MySushiProject.Service
                         orderRepository.Add(newOrder);
                         Log.logger.Info("Новый заказ добавлен в OrderRepository");
 
-                        "Спасибо за заказ!".WriteTextCenter(5);
+                        "Спасибо за заказ! Ваш заказ принят!".WriteTextCenter(5);
                         "Для продолжения нажмите любую клавишу".WriteTextCenter(35);
                         Console.ReadKey();
 
@@ -209,32 +215,25 @@ namespace MySushiProject.Service
                         break;
                 }
 
-
                 //   ****************************    TEST Events   ****************************
-                
-                    
                 if (test)
-                    {
-                        var orders = orderRepository.GetAll();
+                {
+                    var orders = orderRepository.GetAll();
 
-                        var order = orders[5];
+                    var order = orders[1];
 
-                        order.isCompleted = true;
-                        order.isDelivered = true;
-                        order.isPaid = true;
+                    order.isCompleted = true;
+                    order.CheckCompleted(order);
 
-                        order.CheckCompleted(order);
+                    Thread.Sleep(10_000);
+                    order.isDelivered = true;
+                    order.CheckDelivered(order);
 
-                        Thread.Sleep(5_000);
-                        order.CheckDelivered(order);
-
-                        Thread.Sleep(5_000);
-                        order.CheckPaid(order);
-
-
-                        test = false;
-                    }
-                
+                    Thread.Sleep(10_000);
+                    order.isPaid = true;
+                    order.CheckPaid(order);
+                    test = false;
+                }
                 //   ****************************    TEST Events  ****************************
             }
         }

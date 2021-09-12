@@ -14,24 +14,15 @@ namespace MySushiProject
             Log.CreateLogger();
             Log.logger.LogConfig(path, 30000, MinLogLevel.Debug);
             //    ******************   CreateLogger   ******************
+            Log.logger.Debug("Запуск программы");
 
             Console.SetWindowSize(100, 40);
             Log.logger.Debug("Изменен размер консольного окна");
 
-
-            // TEST
-            // EmailSender.SendEmail();
-            // TEST
-
-
-
             //    ******************   StartSushiService   ******************
             SushisService.SushiServiceStart();
             //    ******************   StartSushiService   ******************
-
         }
-
-        
     }
 }
 

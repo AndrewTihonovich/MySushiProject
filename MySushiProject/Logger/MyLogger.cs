@@ -14,7 +14,6 @@ namespace MySushiProject.Logger
         public static void CreateLogger()
         {
             logger = new MyLogger();
-            //return logger;
         }
     }
 
@@ -130,8 +129,7 @@ namespace MySushiProject.Logger
 
             using (FileStream fstream = new FileStream($"{_path}" + $"log {nameFileToday}_[{count}].txt", FileMode.Append))
             {
-                string text = $"{DateTime.Now} [{_logTag}] : {namesp}  ***method***  {method}" +
-                              $"\n\t\t\t\t\t\t\t\t{message}\n";
+                string text = $"{DateTime.Now} [{_logTag}] : {namesp}/{method} - {message}\n";
                 byte[] array = Encoding.Default.GetBytes(text);
                 fstream.Write(array, 0, array.Length);
                 fstream.Close();

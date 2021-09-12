@@ -13,7 +13,6 @@ namespace MySushiProject.UI
         
         public static void PaintWindow( bool isValid, string errMes, string mes1, string mes2)
         {
-            //Log.logger.Debug($"Открыто окно StartWindow");
             int numdStr = 0;
             Console.Clear();
             int height = Console.WindowHeight;

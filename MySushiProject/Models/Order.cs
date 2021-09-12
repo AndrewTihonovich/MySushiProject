@@ -11,7 +11,7 @@ namespace MySushiProject.Models
         public event Action<Order> OrderDelivered;
         public event Action<Order> OrderPaid;
 
-        public Guid Id { get;  }// = Guid.NewGuid();
+        public Guid Id { get;  }
         public List<BasketOrder> BasketOrders { get; set; }
         public User User { get; set; }
         public double TotalCoast { get; set; }
@@ -20,27 +20,10 @@ namespace MySushiProject.Models
         public bool isDelivered { get; set; } = false;
         public bool isPaid { get; set; } = false;
 
-        //[JsonConstructor]
-        //public Order(Guid id, List<BasketOrder> basketOrders, User user, double totalCoast, DateTime date)
-        //{
-        //    Id = id;
-        //    BasketOrders = basketOrders;
-        //    User = user;
-        //    TotalCoast = totalCoast;
-        //    Date = date;
-        //}
-
         public Order(Guid id)
         {
             Id = id;
         }
-
-        //public Order()
-        //{
-
-        //}
-
-        
 
         public void CheckCompleted(Order order)
         {
@@ -66,27 +49,32 @@ namespace MySushiProject.Models
             }
         }
 
-        public override string ToString()
-        {
-            return $"{User} \n Заказ:\n {BasketOrders}\n Общая стоимость заказа {TotalCoast}";
-        }
-
         public void Dispose()
         {
-            //if (this.isCompleted == true)
-            //{
-                this.OrderComplited -= OrderComplited;
-            //}
+            if (isCompleted == true)
+            {
+                OrderComplited -= OrderComplited;
+            }
 
-            //if (this.isDelivered == true)
-            //{
-                this.OrderDelivered -= OrderDelivered;
-            //}
+            if (isDelivered == true)
+            {
+                OrderDelivered -= OrderDelivered;
+            }
 
-            //if (this.isPaid == true)
-            //{
-                this.OrderPaid -= OrderPaid;
-            //}
+            if (isPaid == true)
+            {
+                OrderPaid -= OrderPaid;
+            }
+        }
+
+        public string BasketOrdersToString()
+        {
+            string result=default;
+            for (int i = 0; i < this.BasketOrders.Count; i++)
+            {
+                result = result + $"{this.BasketOrders[i].Name} - {this.BasketOrders[i].AmountInOrder} шт.\n";
+            }
+            return result;
         }
     }
 }

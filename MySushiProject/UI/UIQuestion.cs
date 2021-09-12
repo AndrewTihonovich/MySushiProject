@@ -9,13 +9,10 @@ namespace MySushiProject.UI.Enum
         public static EnumListWindows UIQuestions(List<string> MenuButton, string message, EnumListWindows listMenu) 
         {
             ConsoleKey butNumber = 0;
-            var keyMin = ConsoleKey.Subtract;
-            var keyPlus = ConsoleKey.Add;
             var keyU = ConsoleKey.UpArrow;
             var keyD = ConsoleKey.DownArrow;
             var keyEnt = ConsoleKey.Enter;
             var keyEsc = ConsoleKey.Escape;
-            var keyInfo = ConsoleKey.I;
             var keyF1 = ConsoleKey.F1;
 
             int count = MenuButton.Count;
@@ -48,14 +45,14 @@ namespace MySushiProject.UI.Enum
                 if (butNumber == keyF1)//???
                 {
                     Console.Clear();
-                    Console.WriteLine();
-                    Console.WriteLine("Для передвижения вверх, вниз используйте стреки вверх, вниз\n" +
-                                      "Для добавления/удаления в корзину используйте +/- \n" +
-                                      "Для подтвержения нажмите Enter\n" +
-                                      "Для вызова справки нажмите F1 \n" +
-                                      "Для просмотра описания нажмите i\n "); ;
-                    Console.WriteLine();
-                    Console.WriteLine("\n\n Нажмите любую клавишу чтобы вернуться");
+                    Console.SetCursorPosition(0, 3);
+                    Console.WriteLine("\tДля передвижения вверх, вниз используйте стреки вверх, вниз\n" +
+                                      "\tДля добавления/удаления в корзину используйте +/- \n" +
+                                      "\tДля подтвержения нажмите Enter\n" +
+                                      "\tДля вызова справки нажмите F1 \n" +
+                                      "\tДля просмотра описания нажмите i\n "); ;
+                    
+                    "Нажмите любую клавишу чтобы вернуться".WriteTextCenter(Console.GetCursorPosition().Top + 2);
                     Console.ReadKey();
                 }
 
