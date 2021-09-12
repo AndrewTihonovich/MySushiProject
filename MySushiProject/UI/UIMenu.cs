@@ -1,20 +1,17 @@
-﻿using MySushiProject.BL;
+﻿using MySushiProject.Models;
+using MySushiProject.Extensions;
 using MySushiProject.Repository;
 using MySushiProject.UI.Enum;
-using MySushiProject.Users;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MySushiProject.UI
 {
     class UIMenu
     {
-        //static bool isEnter = false;
-        public static EnumListWindows UiMenus(List<BasketOrder> Basket, string message, EnumListWindows listMenu)    //, out int posMenu)
+        public static EnumListWindows UiMenus(List<BasketOrder> Basket, string mes1, string mes2, EnumListWindows listMenu)    //, out int posMenu)
         {
+            Console.CursorVisible = false;
             ConsoleKey butNumber=0;
             var keyMin = ConsoleKey.Subtract;
             var keyPlus = ConsoleKey.Add;
@@ -28,30 +25,9 @@ namespace MySushiProject.UI
             int count = Basket.Count;
             int cursor = 0;
 
-            while (butNumber != ConsoleKey.Enter && butNumber != ConsoleKey.Escape) //Console.ReadKey().Key != ConsoleKey.Enter
+            while (butNumber != ConsoleKey.Enter && butNumber != ConsoleKey.Escape) 
             {
-                //Console.WriteLine();
-                Console.WriteLine($"\n{message}");
-                //Console.WriteLine();
-
-                //Console.WriteLine("Название\t\t   Количество\t    Цена порции\t    Стоимость\t    Описание");
-
-                for (int i = 0; i <  count; i++)
-                {
-                    if (cursor == i )
-                    {
-                        Console.BackgroundColor = (ConsoleColor)12;
-                        Console.WriteLine(Basket[i].ToString());
-                        Console.BackgroundColor = (ConsoleColor)0;
-                    }
-                    else
-                    {
-                        Console.WriteLine(Basket[i].ToString());
-                    }
-                }
-
-                Console.WriteLine();
-                Console.WriteLine($"Итоговая стоимость заказа {SushiRepository.TotalCoast(Basket)} ");
+                WriteDataFromList(Basket, mes1, mes2, cursor);
 
                 butNumber = Console.ReadKey().Key;
 
@@ -73,7 +49,7 @@ namespace MySushiProject.UI
                     }
                 }
 
-                if (butNumber == keyPlus)////
+                if (butNumber == keyPlus)
                 {
                     Basket[cursor].AmountInOrder++;
                     if (Basket[cursor].AmountInOrder > 10)
@@ -82,7 +58,7 @@ namespace MySushiProject.UI
                     }
                 }
 
-                if (butNumber == keyMin)////
+                if (butNumber == keyMin)////try
                 {
                     Basket[cursor].AmountInOrder--;
                     if (Basket[cursor].AmountInOrder < 0)
@@ -94,56 +70,114 @@ namespace MySushiProject.UI
                 if (butNumber == keyInfo)
                 {
                     Console.Clear();
-                    Console.WriteLine("\n\t****** Информация о продукте ******");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    "****** Информация о продукте ******".WriteTextCenter(2);
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine();
-                    try
-                    {
-                        Console.WriteLine(Basket[cursor].Description);
-                    }
-                    catch (Exception)
-                    {
 
+                    var descripLine = Basket[cursor].Description.Split('\n');
+
+                    for (int i = 0; i < descripLine.Length; i++)
+                    {
+                        Console.WriteLine($"\t{descripLine[i]}");
                     }
-                    Console.WriteLine("\n\n Нажмите любую клавишу чтобы вернуться");
+                       
+                    "Нажмите любую клавишу чтобы вернуться".WriteTextCenter(Console.GetCursorPosition().Top+1);
                     Console.ReadKey();
                 }
 
                 if (butNumber == keyF1)////
                 {
                     Console.Clear();
-                    Console.WriteLine();
-                    Console.WriteLine("Для передвижения вверх, вниз используйте стреки вверх, вниз\n" +
-                        "Для добавления/удаления в корзину используйте +/- \n" +
-                        "Для подтвержения нажмите Enter\n" +
-                        "Для вызова справки нажмите F1 \n" +
-                        "Для просмотра описания нажмите I\n "); ;
-                    Console.WriteLine();
-                    Console.WriteLine("\n\n Нажмите любую клавишу чтобы вернуться"); 
+                    Console.SetCursorPosition(0, 3);
+                    Console.WriteLine("\tДля передвижения вверх, вниз используйте стреки вверх, вниз\n" +
+                                      "\tДля добавления/удаления в корзину используйте +/- \n" +
+                                      "\tДля подтвержения нажмите Enter\n" +
+                                      "\tДля вызова справки нажмите F1 \n" +
+                                      "\tДля просмотра описания нажмите i\n "); ;
+
+                    "Нажмите любую клавишу чтобы вернуться".WriteTextCenter(Console.GetCursorPosition().Top + 2);
                     Console.ReadKey();
                 }
 
+                if (butNumber == keyEnt)
+                {
+                    if (SushiRepository.TotalCoastOrder(Basket) != 0)
+                    {
+                        listMenu++;
+                    }
+                }
+
+                if (butNumber == keyEsc)
+                {
+                    listMenu--;
+                }
 
                 Console.Clear();
-
             }
 
-            //posMenu = cursor;
-
-            if (butNumber== keyEnt)
-            {
-                listMenu++;
-                //Order order = new Order() { TotalCoast= ListSushi.TotalCoast(Menu) };
-
-            }
-
-            if (butNumber == keyEsc)
-            {
-                listMenu--;
-            }
-            
             butNumber = 0;
 
             return listMenu;
+        }
+
+        private static void WriteDataFromList(List<BasketOrder> Basket, string mes1, string mes2, int cursor)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            $"{mes1}".WriteTextCenter(1);
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.WriteLine($"\n\n{mes2}");
+
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\tНазвание\t\t   Количество\t    Цена порции\t    Стоимость\t    Описание\n");
+            Console.ForegroundColor = ConsoleColor.White;
+
+            int X = Console.GetCursorPosition().Left;
+            int Y = Console.GetCursorPosition().Top;
+            for (int i = 0; i < Basket.Count; i++)
+            {
+                if (cursor == i)
+                {
+                    Console.BackgroundColor = ConsoleColor.Red;
+                    PrintBasketOrder(Basket, X, Y, i);
+                    //Console.WriteLine(Basket[i].ToString());
+                    Console.BackgroundColor = ConsoleColor.Black;
+                }
+                else
+                {
+                    PrintBasketOrder(Basket, X, Y, i);
+
+                    //Console.WriteLine(Basket[i].ToString());
+                }
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\tИтоговая стоимость заказа \t...\t...\t...\t...\t{SushiRepository.TotalCoastOrder(Basket)} ");
+            Console.ForegroundColor = ConsoleColor.White;
+
+            "Для справки нажмете F1".WriteTextCenter(Console.GetCursorPosition().Top+2);
+        }
+
+        private static void PrintBasketOrder(List<BasketOrder> Basket, int X, int Y, int i)
+        {
+            
+            Console.SetCursorPosition(X + 8, Y + i);
+            Console.Write($"{Basket[i].Name}                            ");
+
+            Console.SetCursorPosition(X + 40, Y + i);
+            Console.Write($"{Basket[i].AmountInOrder}                     ");
+
+            Console.SetCursorPosition(X + 56, Y + i);
+            Console.Write($"{Basket[i].Coast}                     ");
+
+            Console.SetCursorPosition(X + 72, Y + i);
+            Console.Write($"{Basket[i].CoastUnit = Math.Round(Basket[i].AmountInOrder * Basket[i].Coast, 2)}                ");
+
+            Console.SetCursorPosition(X + 88, Y + i);
+            Console.Write("i    ");
         }
     }
 }

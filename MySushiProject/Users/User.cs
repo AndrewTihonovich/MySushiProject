@@ -1,23 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace MySushiProject.Users
 {
     class User
     {
-        public Guid Id { get;} = Guid.NewGuid();
+        public Guid Id { get;} 
+
         public string Name { get; set; }
+
+        [Phone(ErrorMessage = "Введен не корректный номер")]
         public string Phone { get; set; }
+
+        [EmailAddress(ErrorMessage = "Введен не корректный Email")]
         public string Email { get; set; }
+
         public string Address { get; set; }
 
-        public override string ToString()
+        public User(Guid id)
         {
-            return $"{Name} {Address}";
+            Id = id;
         }
-
     }
 }
