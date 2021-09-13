@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MySushiProject.Logger;
+using MySushiProject.Logger.Enum;
+using MySushiProject.Service;
+using System;
 
 namespace MySushiProject
 {
@@ -6,7 +9,20 @@ namespace MySushiProject
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            //    ******************   CreateLogger   ******************
+            string path = @"C:\Users\Andre\source\repos\MySushiProject\MySushiProject\Logger\Logs\";
+            Log.CreateLogger();
+            Log.logger.LogConfig(path, 30000, MinLogLevel.Debug);
+            //    ******************   CreateLogger   ******************
+            Log.logger.Debug("Запуск программы");
+
+            Console.SetWindowSize(100, 40);
+            Log.logger.Debug("Изменен размер консольного окна");
+
+            //    ******************   StartSushiService   ******************
+            SushisService.SushiServiceStart();
+            //    ******************   StartSushiService   ******************
         }
     }
 }
+
